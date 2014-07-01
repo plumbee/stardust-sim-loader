@@ -49,8 +49,8 @@
     </repositories>
 	
 	<build>
-		<sourceDirectory>src/main/flex</sourceDirectory>
-		<testSourceDirectory>src/test/flex</testSourceDirectory>
+		<sourceDirectory>library/src/main/flex</sourceDirectory>
+		<testSourceDirectory>library/src/test/flex</testSourceDirectory>
 				
 		<finalName>stardust-sim-loader</finalName>
 		<plugins>
