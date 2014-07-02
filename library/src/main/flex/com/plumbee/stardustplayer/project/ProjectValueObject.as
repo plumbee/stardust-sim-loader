@@ -35,8 +35,6 @@ public class ProjectValueObject
         for each (var emitter : Object in projectJSON.emitters)
         {
             const newEmitterVO : EmitterValueObject = new EmitterValueObject( emitter.id );
-            newEmitterVO.burstClockInterval = emitter.burstClockInterval;
-            newEmitterVO.emitterName = emitter.emitterName;
             emitters[newEmitterVO.id] =  newEmitterVO;
         }
         hasBackground = (projectJSON.hasBackground == "true");

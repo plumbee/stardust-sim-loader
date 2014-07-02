@@ -56,11 +56,14 @@ public class SimPlayer
         for each (var emitterValueObject : EmitterValueObject in _sim.emitters)
         {
             emitterValueObject.emitter.step( numSteps );
-            if (emitterValueObject.emitter.clock is ImpulseClock &&
-               (emitterValueObject.emitter.currentTime % emitterValueObject.burstClockInterval == 1))
-            {
-                ImpulseClock(emitterValueObject.emitter.clock ).impulse();
-            }
+	        if (emitterValueObject.emitter.clock is ImpulseClock)
+	        {
+		        const impulseClock : ImpulseClock = ImpulseClock(emitterValueObject.emitter.clock);
+		        if (emitterValueObject.emitter.currentTime % impulseClock.burstInterval == 1)
+		        {
+			        ImpulseClock(emitterValueObject.emitter.clock ).impulse();
+		        }
+	        }
         }
     }
 

@@ -17,7 +17,6 @@ import idv.cjcat.stardustextended.common.clocks.SteadyClock;
 import idv.cjcat.stardustextended.sd;
 
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
-import idv.cjcat.stardustextended.twoD.handlers.BitmapHandler;
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectHandler;
 
 import org.flexunit.asserts.assertEquals;
@@ -71,8 +70,8 @@ public class SimLoaderTest
 
         const emitter0 : EmitterValueObject = SimLoader(event.target).project.emitters[0];
         assertEquals( BlendMode.NORMAL, DisplayObjectHandler(emitter0.emitter.particleHandler).blendMode );
-        assertEquals( 12, emitter0.burstClockInterval );
-        assertEquals( "firstEmitter", emitter0.emitterName );
+        assertEquals( 12, ImpulseClock(emitter0.emitter.clock).burstInterval );
+        assertEquals( "firstEmitter", emitter0.emitter.name );
         assertNotNull( emitter0.emitter );
         assertEquals( 0, emitter0.id );
         assertNotNull( emitter0.image );
@@ -81,8 +80,8 @@ public class SimLoaderTest
 
         const emitter1 : EmitterValueObject = SimLoader(event.target).project.emitters[1];
         assertEquals( BlendMode.NORMAL, DisplayObjectHandler(emitter1.emitter.particleHandler).blendMode );
-        assertEquals( 70, emitter1.burstClockInterval );
-        assertEquals( "emitterImage_1.png", emitter1.emitterName );
+	    assertTrue( emitter1.emitter.clock is SteadyClock );
+        assertEquals( "emitterImage_1.png", emitter1.emitter.name );
         assertNotNull( emitter1.emitter );
         assertEquals( 1, emitter1.id );
         assertNotNull( emitter1.image );

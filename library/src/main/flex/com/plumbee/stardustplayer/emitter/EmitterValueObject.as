@@ -12,8 +12,6 @@ use namespace sd;
 
 public class EmitterValueObject
 {
-    public var burstClockInterval : uint = 33;
-    public var emitterName : String;
     public var emitter : Emitter2D;
     private var _id : uint;
     private var _image : BitmapData;
