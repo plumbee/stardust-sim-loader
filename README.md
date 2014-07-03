@@ -19,21 +19,11 @@ descriptor.json specification: This is a JSON file containing settings for the s
 ```json
 {
 	"version": 1,
-	"emitters": [
-		{
-			"id": "0"
-		},
-		{
-			"id": "1"
-		}
-	],
 	"backgroundColor": 0,
     "backgroundFileName": "background.png",
 	"hasBackground": "true"
 }
 ```
-
-`id` associates the emitter with its image and emitter xml file (e.g. emitter with `id=12` has `emitterImage_12.png` and `stardustEmitter_12.png`.)
 
 `backgroundColor` is the color of the background in the editor. Ignored if hasBackground is false.
 
