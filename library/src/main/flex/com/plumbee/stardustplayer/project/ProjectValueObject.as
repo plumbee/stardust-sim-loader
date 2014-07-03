@@ -8,16 +8,6 @@ import flash.utils.ByteArray;
 
 import flash.utils.Dictionary;
 
-import idv.cjcat.stardustextended.common.handlers.ParticleHandler;
-
-import idv.cjcat.stardustextended.twoD.handlers.BitmapHandler;
-import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectHandler;
-
-import idv.cjcat.stardustextended.twoD.handlers.PixelHandler;
-import idv.cjcat.stardustextended.twoD.handlers.SingularBitmapHandler;
-
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
-
 public class ProjectValueObject
 {
     public var version : Number;
@@ -32,16 +22,14 @@ public class ProjectValueObject
     public function ProjectValueObject( projectJSON : Object )
     {
         version = projectJSON.version;
-        for each (var emitter : Object in projectJSON.emitters)
-        {
-            const newEmitterVO : EmitterValueObject = new EmitterValueObject( emitter.id );
-            emitters[newEmitterVO.id] =  newEmitterVO;
-        }
+
         hasBackground = (projectJSON.hasBackground == "true");
+
         if ( projectJSON.backgroundFileName )
         {
             backgroundFileName = projectJSON.backgroundFileName;
         }
+
         if ( projectJSON.displayMode )
         {
             displayMode = projectJSON.displayMode;

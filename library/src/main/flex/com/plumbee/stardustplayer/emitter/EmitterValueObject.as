@@ -12,12 +12,13 @@ use namespace sd;
 
 public class EmitterValueObject
 {
-    public var emitter : Emitter2D;
+    private var _emitter : Emitter2D;
     private var _id : uint;
     private var _image : BitmapData;
 
-    public function EmitterValueObject( emitterId : uint )
+    public function EmitterValueObject( emitterId : uint, emitter : Emitter2D )
     {
+        _emitter = emitter;
         _id = emitterId;
     }
 
@@ -26,24 +27,19 @@ public class EmitterValueObject
         return _id;
     }
 
+    public function get emitter():Emitter2D
+    {
+        return _emitter;
+    }
+
     public function get image() : BitmapData
     {
         return _image;
     }
 
-    public function get imageName() : String
-    {
-        return "emitterImage_" + _id + ".png";
-    }
-
-    public function get xmlName() : String
-    {
-        return "stardustEmitter_" + _id + ".xml";
-    }
-
     public function get smoothing() : Boolean
     {
-        const inits : Array = emitter.sd::initializers;
+        const inits : Array = _emitter.sd::initializers;
         const numInits : uint = inits.length;
         for (var i:uint=0; i < numInits; i++)
         {
@@ -60,7 +56,7 @@ public class EmitterValueObject
     public function set image(imageBD : BitmapData) : void
     {
         _image = imageBD;
-        const initializers : Array = emitter.sd::initializers;
+        const initializers : Array = _emitter.sd::initializers;
         for (var k:int = 0; k < initializers.length; k++)
         {
             var bitmapParticleInit : BitmapParticleInit = initializers[k] as BitmapParticleInit;
@@ -71,5 +67,6 @@ public class EmitterValueObject
             }
         }
     }
+
 }
 }

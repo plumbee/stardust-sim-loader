@@ -29,7 +29,7 @@ public class SimLoader extends EventDispatcher implements ISimLoader
     private var _project : ProjectValueObject;
     private var projectLoaded : Boolean = false;
 
-    /* Loads an .sde file (thats in a byteArray). */
+    /** Loads an .sde file (that is in a byteArray). */
     public function loadSim(data : ByteArray) : void
     {
         projectLoaded = false;
@@ -37,8 +37,28 @@ public class SimLoader extends EventDispatcher implements ISimLoader
 
         const loadedZip : Zip = new Zip();
         loadedZip.loadBytes( data );
-        const descriptorJSON : Object = JSON.parse( loadedZip.getFileByName( DESCRIPTOR_FILENAME ).getContentAsString() );
+        const descriptorJSON : Object = JSON.parse( loadedZip.getFileByName(DESCRIPTOR_FILENAME).getContentAsString() );
         _project = new ProjectValueObject( descriptorJSON );
+
+        for (var i:int = 0; i < loadedZip.getFileCount(); i++)
+        {
+            var loadedFileName : String = loadedZip.getFileAt(i).filename;
+            if (ZipFileNames.isEmitterXMLName(loadedFileName))
+            {
+                var emitterId : uint = ZipFileNames.getEmitterID(loadedFileName);
+
+                const stardustBA : ByteArray = loadedZip.getFileByName( loadedFileName ).content;
+                const emitterXml : XML = new XML( stardustBA.readUTFBytes( stardustBA.length ) );
+
+                _project.emitters[emitterId] = new EmitterValueObject(emitterId, EmitterBuilder.buildEmitter(emitterXml));
+
+                const loadImageJob : LoadByteArrayJob = new LoadByteArrayJob(
+                        emitterId.toString(),
+                        ZipFileNames.getImageName(emitterId),
+                        loadedZip.getFileByName(ZipFileNames.getImageName(emitterId)).content );
+                sequenceLoader.addJob( loadImageJob );
+            }
+        }
 
         if ( loadedZip.getFileByName(_project.backgroundFileName) != null )
         {
@@ -46,18 +66,6 @@ public class SimLoader extends EventDispatcher implements ISimLoader
                                                          _project.backgroundFileName,
                                                          loadedZip.getFileByName(_project.backgroundFileName).content );
             sequenceLoader.addJob( backgroundJob );
-        }
-        for each (var emitterVO : EmitterValueObject in _project.emitters)
-        {
-            const job : LoadByteArrayJob = new LoadByteArrayJob(
-                                                    emitterVO.id.toString(),
-                                                    emitterVO.imageName,
-                                                    loadedZip.getFileByName(emitterVO.imageName).content );
-            sequenceLoader.addJob( job );
-
-            const stardustBA : ByteArray = loadedZip.getFileByName( emitterVO.xmlName ).content;
-            const xml : XML = new XML( stardustBA.readUTFBytes( stardustBA.length ) );
-            emitterVO.emitter = EmitterBuilder.buildEmitter( xml );
         }
 
         sequenceLoader.addEventListener( Event.COMPLETE, onProjectAssetsLoaded );
