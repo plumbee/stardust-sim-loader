@@ -15,7 +15,7 @@ public class CoinBurstExample extends Sprite
 	{
 		stage.scaleMode = StageScaleMode.NO_SCALE;
 		stage.align = StageAlign.TOP_LEFT;
-		starling = new Starling(StarlingRootClass, stage);
+		starling = new Starling(StarlingStardustExample, stage);
 		starling.start();
 	}
 }
