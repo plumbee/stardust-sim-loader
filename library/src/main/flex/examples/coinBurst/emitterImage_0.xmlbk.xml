@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TextureAtlas imagePath="emitterImage_0.png">
-    <SubTexture name="coin_000" x="0" y="0" width="420" height="30" />
-</TextureAtlas>

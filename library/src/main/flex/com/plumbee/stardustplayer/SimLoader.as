@@ -32,6 +32,7 @@ public class SimLoader extends EventDispatcher implements ISimLoader
     private const sequenceLoader : ISequenceLoader = new SequenceLoader();
     private var _project : ProjectValueObject;
     private var projectLoaded : Boolean = false;
+	private var _arrayOfTextures : Array;
 
     /** Loads an .sde file (that is in a byteArray). */
     public function loadSim(data : ByteArray) : void
@@ -58,6 +59,7 @@ public class SimLoader extends EventDispatcher implements ISimLoader
                 const emitterXml : XML = new XML( stardustBA.readUTFBytes( stardustBA.length ) );
 
                 _project.emitters[emitterId] = new EmitterValueObject(emitterId, EmitterBuilder.buildEmitter(emitterXml));
+	            _project.emitters[emitterId].prepareForStarling(_arrayOfTextures[emitterId]);
 
 //                const loadImageJob : LoadByteArrayJob = new LoadByteArrayJob(
 //                        emitterId.toString(),
@@ -106,5 +108,11 @@ public class SimLoader extends EventDispatcher implements ISimLoader
         }
         return null;
     }
+
+	public function loadStarlingSim(assetInstance : ByteArray, arrayOfTextures : Array) : void
+	{
+		_arrayOfTextures = arrayOfTextures;
+		loadSim(assetInstance);
+	}
 }
 }
