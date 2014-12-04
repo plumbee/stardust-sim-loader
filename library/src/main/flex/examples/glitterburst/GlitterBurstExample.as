@@ -1,19 +1,22 @@
-package coinBurst {
+package examples.glitterburst {
+
+import examples.ExampleSimPlayer;
+import examples.PlayButton;
 
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.utils.ByteArray;
 
 [SWF(width="400", height="250", backgroundColor="#454545", frameRate="40")]
-public class CoinBurstExample extends Sprite
+public class GlitterBurstExample extends Sprite
 {
-	[Embed(source="coins_particles.sde", mimeType = 'application/octet-stream')]
+	[Embed(source="glitter_burst.sde", mimeType = 'application/octet-stream')]
 	private static var Asset:Class;
 	private static var assetInstance:ByteArray = new Asset();
 
 	private var playButton : PlayButton;
 
-	public function CoinBurstExample()
+	public function GlitterBurstExample()
 	{
 		playButton = new PlayButton();
 		addChild(playButton);
@@ -27,8 +30,8 @@ public class CoinBurstExample extends Sprite
 		playButton.removeEventListener(MouseEvent.CLICK, onClick);
 		removeChild(playButton);
 		var player : ExampleSimPlayer = new ExampleSimPlayer();
-		player.x = 190;
-		player.y = 120;
+		player.x = 120;
+		player.y = 50;
 		addChild(player);
 		player.loadSim(assetInstance);
 	}

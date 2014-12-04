@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="emitterImage_0.png">
+    <SubTexture name="coin_000" x="0" y="0" width="30" height="30" />
+    <SubTexture name="coin_001" x="30" y="0" width="30" height="30" />
+    <SubTexture name="coin_002" x="60" y="0" width="30" height="30" />
+    <SubTexture name="coin_003" x="90" y="0" width="30" height="30" />
+    <SubTexture name="coin_004" x="120" y="0" width="30" height="30" />
+    <SubTexture name="coin_005" x="150" y="0" width="30" height="30" />
+    <SubTexture name="coin_006" x="180" y="0" width="30" height="30" />
+    <SubTexture name="coin_007" x="210" y="0" width="30" height="30" />
+    <SubTexture name="coin_008" x="240" y="0" width="30" height="30" />
+    <SubTexture name="coin_009" x="270" y="0" width="30" height="30" />
+    <SubTexture name="coin_010" x="300" y="0" width="30" height="30" />
+    <SubTexture name="coin_011" x="330" y="0" width="30" height="30" />
+    <SubTexture name="coin_012" x="360" y="0" width="30" height="30" />
+    <SubTexture name="coin_013" x="390" y="0" width="30" height="30" />
+</TextureAtlas>

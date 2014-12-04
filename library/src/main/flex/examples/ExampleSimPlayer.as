@@ -1,4 +1,4 @@
-package
+package examples
 {
 
 import com.plumbee.stardustplayer.SimLoader;

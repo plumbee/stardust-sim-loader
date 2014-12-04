@@ -23,6 +23,7 @@
         <flexunit.version>4.1.0</flexunit.version>
         <swf.version>18</swf.version>
         <flash.player.version>11.7</flash.player.version>
+        <starling.version>1.5.1</starling.version>
 
         <includeProperties>
             stardust.library.version
@@ -185,6 +186,13 @@
             <groupId>org.as3commons</groupId>
             <artifactId>as3commons-zip</artifactId>
             <version>1.0-PLUMBEE</version>
+            <type>swc</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gamua</groupId>
+            <artifactId>starling-framework</artifactId>
+            <version>${starling.version}</version>
             <type>swc</type>
         </dependency>
 
