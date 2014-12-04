@@ -1,7 +1,7 @@
 package com.plumbee.stardustplayer.emitter
 {
 
-import examples.coinBurst.StarlingRootClass;
+import examples.coinBurst.StarlingStardustExample;
 
 import flash.display.BitmapData;
 
@@ -42,7 +42,7 @@ public class EmitterValueObject
 	private function removeDisplayListInitializers() : void
 	{
 		const initializers : Array = _emitter.sd::initializers;
-		_emitter.particleHandler = new StarlingHandler(StarlingRootClass.canvas);
+		_emitter.particleHandler = new StarlingHandler(StarlingStardustExample.canvas);
 
 		for (var i : int = 0; i < initializers.length; i++)
 		{
