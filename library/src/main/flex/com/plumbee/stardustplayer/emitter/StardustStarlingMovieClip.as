@@ -47,7 +47,7 @@ public class StardustStarlingMovieClip extends MovieClip implements IStardustSta
 	{
 		this.x = x;
 		this.y = y;
-		this.rotation = rotation;
+		this.rotation = rotation * Math.PI / 180;
 		this.scaleX = this.scaleY = scale;
 		if (this.alpha != alpha)
 		{
