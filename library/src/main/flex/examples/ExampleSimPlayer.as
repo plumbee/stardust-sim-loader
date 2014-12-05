@@ -5,9 +5,7 @@ import com.plumbee.stardustplayer.SimLoader;
 import com.plumbee.stardustplayer.SimPlayer;
 
 import flash.display.Sprite;
-
 import flash.events.Event;
-
 import flash.utils.ByteArray;
 
 public class ExampleSimPlayer extends Sprite

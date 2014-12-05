@@ -1,6 +1,5 @@
 package examples.coinBurst
 {
-import com.plumbee.stardustplayer.SimLoader;
 import com.plumbee.stardustplayer.SimPlayer;
 import com.plumbee.stardustplayer.StarlingSimBuilder;
 import com.plumbee.stardustplayer.StarlingSimZipLoader;
@@ -77,11 +76,11 @@ public class StarlingStardustExample extends Sprite
 		for each (var emitter2D : ByteArray in emitters)
 		{
 			simBuilder.withEmitter(i, emitter2D);
-			i ++;
+			i++;
 		}
-		simBuilder.withTextures(0, "coin", createAtlas(Texture0,AtlasTexture0));
-		simBuilder.withTextures(1, "coin", createAtlas(Texture1,AtlasTexture1));
-		simBuilder.withTextures(2, "coin", createAtlas(Texture2,AtlasTexture2));
+		simBuilder.withTextures(0, "coin", createAtlas(Texture0, AtlasTexture0));
+		simBuilder.withTextures(1, "coin", createAtlas(Texture1, AtlasTexture1));
+		simBuilder.withTextures(2, "coin", createAtlas(Texture2, AtlasTexture2));
 
 		return simBuilder.build();
 

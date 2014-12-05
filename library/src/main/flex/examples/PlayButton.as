@@ -13,7 +13,7 @@ public class PlayButton extends Sprite
 
 		gfx.graphics.lineStyle(5, 0x007F7F);
 		gfx.graphics.drawCircle(0, 0, 50);
-		gfx.graphics.lineStyle(0,0,0);
+		gfx.graphics.lineStyle(0, 0, 0);
 
 		gfx.graphics.beginFill(0x007F7F);
 		gfx.graphics.moveTo(-15, -25);
@@ -22,7 +22,7 @@ public class PlayButton extends Sprite
 		gfx.graphics.endFill();
 
 		gfx.graphics.beginFill(0x007F7F, 0);
-		gfx.graphics.drawRect(-50,-50,100,100);
+		gfx.graphics.drawRect(-50, -50, 100, 100);
 
 		addChild(gfx);
 		gfx.x = gfx.y = 50;

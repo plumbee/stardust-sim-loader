@@ -7,19 +7,19 @@ import flash.events.IEventDispatcher;
 public interface ISequenceLoader extends IEventDispatcher
 {
 
-    function addJob( loadJob : LoadByteArrayJob ) : void;
+	function addJob(loadJob : LoadByteArrayJob) : void;
 
-    function getCompletedJobs() : Vector.<LoadByteArrayJob>;
+	function getCompletedJobs() : Vector.<LoadByteArrayJob>;
 
-    function getJobContentByName( emitterName : String ) : DisplayObject;
+	function getJobContentByName(emitterName : String) : DisplayObject;
 
-    function getJobByName( emitterName : String ) : LoadByteArrayJob;
+	function getJobByName(emitterName : String) : LoadByteArrayJob;
 
-    function removeCompletedJobByName( jobName : String ) : void;
+	function removeCompletedJobByName(jobName : String) : void;
 
-    function clearAllJobs() : void;
+	function clearAllJobs() : void;
 
-    function loadSequence() : void;
+	function loadSequence() : void;
 
 }
 }

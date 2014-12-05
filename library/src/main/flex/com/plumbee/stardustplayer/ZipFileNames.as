@@ -1,28 +1,30 @@
-package com.plumbee.stardustplayer {
+package com.plumbee.stardustplayer
+{
 
-public class ZipFileNames {
+public class ZipFileNames
+{
 
-    private static const EMITTER_NAME_PREFIX : String = "stardustEmitter_";
+	private static const EMITTER_NAME_PREFIX : String = "stardustEmitter_";
 
-    public static function getXMLName(id : int) : String
-    {
-        return EMITTER_NAME_PREFIX + id + ".xml";
-    }
+	public static function getXMLName(id : int) : String
+	{
+		return EMITTER_NAME_PREFIX + id + ".xml";
+	}
 
-    public static function getImageName(id : int) : String
-    {
-        return "emitterImage_" + id + ".png";
-    }
+	public static function getImageName(id : int) : String
+	{
+		return "emitterImage_" + id + ".png";
+	}
 
-    public static function isEmitterXMLName(filename : String) : Boolean
-    {
-        return (filename.substr(0,16) == EMITTER_NAME_PREFIX)
-    }
+	public static function isEmitterXMLName(filename : String) : Boolean
+	{
+		return (filename.substr(0, 16) == EMITTER_NAME_PREFIX)
+	}
 
-    public static function getEmitterID(XMLFilename : String) : uint
-    {
-        return parseInt(XMLFilename.substr(16).split(".")[0]);
-    }
+	public static function getEmitterID(XMLFilename : String) : uint
+	{
+		return parseInt(XMLFilename.substr(16).split(".")[0]);
+	}
 
 
 }

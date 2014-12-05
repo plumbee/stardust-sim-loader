@@ -1,8 +1,6 @@
 package com.plumbee.stardustplayer.emitter
 {
 
-import examples.coinBurst.StarlingStardustExample;
-
 import flash.display.BitmapData;
 
 import idv.cjcat.stardustextended.sd;
@@ -13,7 +11,6 @@ import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import starling.core.Starling;
-
 import starling.textures.Texture;
 
 use namespace sd;
@@ -30,7 +27,7 @@ public class EmitterValueObject
 		_id = emitterId;
 	}
 
-	public function prepareForStarling(textures: Vector.<Texture>) : void
+	public function prepareForStarling(textures : Vector.<Texture>) : void
 	{
 		removeDisplayListInitializers();
 		addStarlingInitializers(textures);

@@ -1,4 +1,5 @@
-package examples.glitterburst {
+package examples.glitterburst
+{
 
 import examples.ExampleSimPlayer;
 import examples.PlayButton;
@@ -10,9 +11,9 @@ import flash.utils.ByteArray;
 [SWF(width="400", height="250", backgroundColor="#454545", frameRate="40")]
 public class GlitterBurstExample extends Sprite
 {
-	[Embed(source="glitter_burst.sde", mimeType = 'application/octet-stream')]
-	private static var Asset:Class;
-	private static var assetInstance:ByteArray = new Asset();
+	[Embed(source="glitter_burst.sde", mimeType='application/octet-stream')]
+	private static var Asset : Class;
+	private static var assetInstance : ByteArray = new Asset();
 
 	private var playButton : PlayButton;
 

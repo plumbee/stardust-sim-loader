@@ -9,6 +9,7 @@ import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
 import org.flexunit.asserts.assertEquals;
 
 use namespace sd;
+
 public class EmitterValueObjectTest
 {
 	[Test]
@@ -18,9 +19,11 @@ public class EmitterValueObjectTest
 		evo.emitter.addInitializer(new BitmapParticleInit());
 		evo.emitter.addInitializer(new PooledDisplayObjectClass());
 		evo.prepareForStarling(null);
-		var found:uint = 0;
-		for(var i:int = 0; i < evo.emitter.initializers.length; i++) {
-			if(evo.emitter.initializers[i] is BitmapParticleInit || evo.emitter.initializers[i] is PooledDisplayObjectClass) {
+		var found : uint = 0;
+		for (var i : int = 0; i < evo.emitter.initializers.length; i++)
+		{
+			if (evo.emitter.initializers[i] is BitmapParticleInit || evo.emitter.initializers[i] is PooledDisplayObjectClass)
+			{
 				found++;
 			}
 		}
@@ -32,9 +35,11 @@ public class EmitterValueObjectTest
 	{
 		var evo : EmitterValueObject = new EmitterValueObject(0, new Emitter2D());
 		evo.prepareForStarling(null);
-		var found:uint = 0;
-		for(var i:int = 0; i < evo.emitter.initializers.length; i++) {
-			if(evo.emitter.initializers[i] is StarlingDisplayObjectClass) {
+		var found : uint = 0;
+		for (var i : int = 0; i < evo.emitter.initializers.length; i++)
+		{
+			if (evo.emitter.initializers[i] is StarlingDisplayObjectClass)
+			{
 				found++;
 			}
 		}
