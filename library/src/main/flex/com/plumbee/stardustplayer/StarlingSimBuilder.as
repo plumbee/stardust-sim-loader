@@ -32,7 +32,8 @@ public class StarlingSimBuilder
 
 		if (_project.emitters[emitterID])
 		{
-			_project.emitters[emitterID].prepareForStarling(textureAtlas.getTextures(prefix));
+			var emitterValueObject:EmitterValueObject = _project.emitters[emitterID] as EmitterValueObject;
+			emitterValueObject.prepareForStarling(textureAtlas.getTextures(prefix));
 		} else {
 			throw new Error("There is no emitter with emitterID: " + emitterID );
 		}

@@ -22,12 +22,18 @@ public class StardustStarlingMovieClip extends MovieClip implements IStardustSta
 	{
 		this.x = x;
 		this.y = y;
-		this.rotation = rotation * Math.PI / 180;
+		//Receives rotation in degrees. Starling uses radians.
+		this.rotation = degreeToRadians(rotation);
 		this.scaleX = this.scaleY = scale;
 		if (this.alpha != alpha)
 		{
 			this.alpha = alpha;
 		}
+	}
+
+	private function degreeToRadians(rotation : Number) : Number
+	{
+		return rotation * Math.PI / 180;
 	}
 
 	public function initWithSingleBitmap(bitmapData : BitmapData, _smoothing : Boolean) : void
