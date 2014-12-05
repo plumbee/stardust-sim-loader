@@ -1,8 +1,5 @@
-package examples.glitterburst
+package glitterburst
 {
-
-import examples.ExampleSimPlayer;
-import examples.PlayButton;
 
 import flash.display.Sprite;
 import flash.events.MouseEvent;

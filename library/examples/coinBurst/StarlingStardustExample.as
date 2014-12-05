@@ -1,4 +1,4 @@
-package examples.coinBurst
+package coinBurst
 {
 import com.plumbee.stardustplayer.SimPlayer;
 import com.plumbee.stardustplayer.StarlingSimBuilder;
@@ -25,22 +25,22 @@ public class StarlingStardustExample extends Sprite
 	public static var canvas : DisplayObjectContainer;
 	private var player : SimPlayer;
 
-	[Embed(source="../../examples/coinBurst/emitterImage_0.png")]
+	[Embed(source="emitterImage_0.png")]
 	public static const Texture0 : Class;
 
-	[Embed(source="../../examples/coinBurst/emitterImage_1.png")]
+	[Embed(source="emitterImage_1.png")]
 	public static const Texture1 : Class;
 
-	[Embed(source="../../examples/coinBurst/emitterImage_2.png")]
+	[Embed(source="emitterImage_2.png")]
 	public static const Texture2 : Class;
 
-	[Embed(source="../../examples/coinBurst/emitterImage_0.xml", mimeType="application/octet-stream")]
+	[Embed(source="emitterImage_0.xml", mimeType="application/octet-stream")]
 	public static const AtlasTexture0 : Class;
 
-	[Embed(source="../../examples/coinBurst/emitterImage_1.xml", mimeType="application/octet-stream")]
+	[Embed(source="emitterImage_1.xml", mimeType="application/octet-stream")]
 	public static const AtlasTexture1 : Class;
 
-	[Embed(source="../../examples/coinBurst/emitterImage_2.xml", mimeType="application/octet-stream")]
+	[Embed(source="emitterImage_2.xml", mimeType="application/octet-stream")]
 	public static const AtlasTexture2 : Class;
 
 	public function StarlingStardustExample()

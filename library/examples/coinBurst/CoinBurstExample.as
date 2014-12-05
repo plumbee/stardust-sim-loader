@@ -1,6 +1,5 @@
-package examples.coinBurst
+package coinBurst
 {
-
 import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
