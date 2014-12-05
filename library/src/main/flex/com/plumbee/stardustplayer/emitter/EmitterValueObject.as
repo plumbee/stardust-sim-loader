@@ -12,6 +12,8 @@ import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
+import starling.core.Starling;
+
 import starling.textures.Texture;
 
 use namespace sd;
@@ -42,7 +44,7 @@ public class EmitterValueObject
 	private function removeDisplayListInitializers() : void
 	{
 		const initializers : Array = _emitter.sd::initializers;
-		_emitter.particleHandler = new StarlingHandler(StarlingStardustExample.canvas);
+		_emitter.particleHandler = new StarlingHandler(Starling.context);
 
 		for (var i : int = 0; i < initializers.length; i++)
 		{
