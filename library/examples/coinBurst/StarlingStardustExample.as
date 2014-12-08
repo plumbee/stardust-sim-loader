@@ -61,7 +61,7 @@ public class StarlingStardustExample extends Sprite
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
 	}
 
-	private function createAtlas(atlasTexture : Class, atlasXML : Class)
+	private function createAtlas(atlasTexture : Class, atlasXML : Class) : TextureAtlas
 	{
 		var bitmap : Bitmap = new atlasTexture();
 		return new TextureAtlas(Texture.fromBitmap(bitmap), new XML(new atlasXML()));
