@@ -4,12 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.plumbee</groupId>
-    <artifactId>stardust-sim-loader</artifactId>
-    <version>2.49</version>
-    <packaging>swc</packaging>
+    <artifactId>sim-loader-parent</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
 
-    <name>Stardust sim loader</name>
+    <name>Stardust sim loader Parent</name>
     <description>Stardust simulation loader and player. A library to load and play back .sde files</description>
+
+    <modules>
+        <module>stardust-sim-loader</module>
+        <module>stardust-starling-sim-loader</module>
+    </modules>
 
     <properties>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
@@ -24,7 +29,6 @@
         <flexunit.version>4.1.0</flexunit.version>
         <swf.version>18</swf.version>
         <flash.player.version>11.7</flash.player.version>
-        <starling.version>1.5.1</starling.version>
 
         <includeProperties>
             stardust.library.version
@@ -50,75 +54,75 @@
         </repository>
     </repositories>
 
-    <build>
-        <sourceDirectory>library/src/main/flex</sourceDirectory>
-        <testSourceDirectory>library/src/test/flex</testSourceDirectory>
+    <!--<build>-->
+        <!--<sourceDirectory>stardust-sim-loader/library/src/main/flex</sourceDirectory>-->
+        <!--<testSourceDirectory>stardust-sim-loader/library/src/test/flex</testSourceDirectory>-->
 
-        <finalName>stardust-sim-loader</finalName>
-        <plugins>
+        <!--<finalName>stardust-sim-loader</finalName>-->
+        <!--<plugins>-->
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>2.0</version>
-                <configuration>
-                    <includeProperties>stardust.library.version</includeProperties>
-                    <allowSnapshots>false</allowSnapshots>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>versions-maven-plugin</artifactId>-->
+                <!--<version>2.0</version>-->
+                <!--<configuration>-->
+                    <!--<includeProperties>stardust.library.version</includeProperties>-->
+                    <!--<allowSnapshots>false</allowSnapshots>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
-            <plugin>
-                <groupId>net.flexmojos.oss</groupId>
-                <artifactId>flexmojos-maven-plugin</artifactId>
-                <version>${flexmojos.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <coverage>false</coverage>
-                    <targetPlayer>${flash.player.version}</targetPlayer>
-                    <swfVersion>${swf.version}</swfVersion>
-                    <testTimeout>200000</testTimeout>
-                    <accessible>false</accessible>
-                    <verifyDigests>false</verifyDigests>
-                    <compilerWarnings>
-                        <warn-no-constructor>false</warn-no-constructor>
-                    </compilerWarnings>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.adobe.flex</groupId>
-                        <artifactId>compiler</artifactId>
-                        <version>${flex.sdk.version}</version>
-                        <type>pom</type>
-                    </dependency>
-                </dependencies>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>net.flexmojos.oss</groupId>-->
+                <!--<artifactId>flexmojos-maven-plugin</artifactId>-->
+                <!--<version>${flexmojos.version}</version>-->
+                <!--<extensions>true</extensions>-->
+                <!--<configuration>-->
+                    <!--<coverage>false</coverage>-->
+                    <!--<targetPlayer>${flash.player.version}</targetPlayer>-->
+                    <!--<swfVersion>${swf.version}</swfVersion>-->
+                    <!--<testTimeout>200000</testTimeout>-->
+                    <!--<accessible>false</accessible>-->
+                    <!--<verifyDigests>false</verifyDigests>-->
+                    <!--<compilerWarnings>-->
+                        <!--<warn-no-constructor>false</warn-no-constructor>-->
+                    <!--</compilerWarnings>-->
+                <!--</configuration>-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>com.adobe.flex</groupId>-->
+                        <!--<artifactId>compiler</artifactId>-->
+                        <!--<version>${flex.sdk.version}</version>-->
+                        <!--<type>pom</type>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+            <!--</plugin>-->
 
-            <!-- Maven plugin to enforce dependency convergence
-            <DependencyConvergence /> rule requires that dependency version numbers converge.
-            If a project has two dependencies, A and B, both depending on the same artifact, C, this rule will
-            fail the build if A depends on a different version of C then the version of C depended on by B. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <id>enforce</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <rules>
-                                <DependencyConvergence/>
-                            </rules>
-                        </configuration>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--&lt;!&ndash; Maven plugin to enforce dependency convergence-->
+            <!--<DependencyConvergence /> rule requires that dependency version numbers converge.-->
+            <!--If a project has two dependencies, A and B, both depending on the same artifact, C, this rule will-->
+            <!--fail the build if A depends on a different version of C then the version of C depended on by B. &ndash;&gt;-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-enforcer-plugin</artifactId>-->
+                <!--<version>1.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>enforce</id>-->
+                        <!--<phase>validate</phase>-->
+                        <!--<configuration>-->
+                            <!--<rules>-->
+                                <!--<DependencyConvergence/>-->
+                            <!--</rules>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>enforce</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
 
-        </plugins>
-    </build>
+        <!--</plugins>-->
+    <!--</build>-->
 
     <dependencies>
         <!-- Flex needs to be excluded here, otherwise will compile for FP 10 for some reason -->
@@ -187,13 +191,6 @@
             <groupId>org.as3commons</groupId>
             <artifactId>as3commons-zip</artifactId>
             <version>1.0-PLUMBEE</version>
-            <type>swc</type>
-        </dependency>
-
-        <dependency>
-            <groupId>com.gamua</groupId>
-            <artifactId>starling-framework</artifactId>
-            <version>${starling.version}</version>
             <type>swc</type>
         </dependency>
 

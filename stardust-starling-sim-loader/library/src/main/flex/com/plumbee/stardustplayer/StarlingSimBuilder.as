@@ -1,7 +1,7 @@
 package com.plumbee.stardustplayer
 {
 import com.plumbee.stardustplayer.emitter.EmitterBuilder;
-import com.plumbee.stardustplayer.emitter.EmitterValueObject;
+import com.plumbee.stardustplayer.emitter.StarlingEmitterValueObject;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
 import flash.utils.ByteArray;
@@ -20,7 +20,7 @@ public class StarlingSimBuilder
 	public function withEmitter(emitterID : uint, emitterBA : ByteArray) : StarlingSimBuilder
 	{
 		var emitterXml : XML = new XML(emitterBA.readUTFBytes(emitterBA.length));
-		var emitterVO : EmitterValueObject = new EmitterValueObject(emitterID, EmitterBuilder.buildEmitter(emitterXml));
+		var emitterVO : StarlingEmitterValueObject = new StarlingEmitterValueObject(emitterID, EmitterBuilder.buildEmitter(emitterXml));
 
 		_project.emitters[emitterID] = emitterVO;
 
@@ -32,7 +32,7 @@ public class StarlingSimBuilder
 
 		if (_project.emitters[emitterID])
 		{
-			var emitterValueObject : EmitterValueObject = _project.emitters[emitterID] as EmitterValueObject;
+			var emitterValueObject : StarlingEmitterValueObject = _project.emitters[emitterID] as StarlingEmitterValueObject;
 			emitterValueObject.prepareForStarling(textureAtlas.getTextures(prefix));
 		}
 		else
