@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.plumbee</groupId>
         <artifactId>sim-loader-parent</artifactId>
-        <version>1.0</version>
+        <version>2.51</version>
     </parent>
 
     <groupId>com.plumbee</groupId>
@@ -18,7 +18,7 @@
 
     <properties>
         <starling.version>1.5.1</starling.version>
-        <stardust-sim-loader.version>2.49</stardust-sim-loader.version>
+        <stardust-sim-loader.version>2.51</stardust-sim-loader.version>
     </properties>
 
     <build>
