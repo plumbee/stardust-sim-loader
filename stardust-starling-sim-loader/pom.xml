@@ -11,7 +11,7 @@
 
     <groupId>com.plumbee</groupId>
     <artifactId>stardust-starling-sim-loader</artifactId>
-    <version>${parent.version}</version>
+    <version>2.51</version>
     <packaging>swc</packaging>
 
     <name>Stardust Starling Sim Loader</name>
