@@ -11,8 +11,8 @@
 
     <groupId>com.plumbee</groupId>
     <artifactId>stardust-starling-sim-loader</artifactId>
-    <version>2.51</version>
     <packaging>swc</packaging>
+    <!-- Implicit version inheritance from parent via omitted version tag here -->
 
     <name>Stardust Starling Sim Loader</name>
 
