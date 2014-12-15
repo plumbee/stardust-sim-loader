@@ -18,7 +18,7 @@
 
     <properties>
         <starling.version>1.5.1</starling.version>
-        <stardust-sim-loader.version>2.51</stardust-sim-loader.version>
+        <stardust-sim-loader.version>${parent.version}</stardust-sim-loader.version>
     </properties>
 
     <build>
