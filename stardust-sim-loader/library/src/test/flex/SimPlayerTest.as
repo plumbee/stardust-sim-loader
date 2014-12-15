@@ -2,7 +2,7 @@ package
 {
 import com.plumbee.stardustplayer.SimLoader;
 import com.plumbee.stardustplayer.SimPlayer;
-import com.plumbee.stardustplayer.emitter.EmitterValueObject;
+import com.plumbee.stardustplayer.emitter.BaseEmitterValueObject;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
 import flash.display.Sprite;
@@ -42,17 +42,17 @@ public class SimPlayerTest
 
 		for (var i : int = 0; i < 12; i++)
 		{
-			assertEquals(34, EmitterValueObject(sim.emitters[0]).emitter.numParticles);
+			assertEquals(34, BaseEmitterValueObject(sim.emitters[0]).emitter.numParticles);
 			player.stepSimulation();
 		}
-		assertEquals(14, EmitterValueObject(sim.emitters[0]).emitter.currentTime);
+		assertEquals(14, BaseEmitterValueObject(sim.emitters[0]).emitter.currentTime);
 		for (var k : int = 0; k < 12; k++)
 		{
-			assertEquals(68, EmitterValueObject(sim.emitters[0]).emitter.numParticles);
+			assertEquals(68, BaseEmitterValueObject(sim.emitters[0]).emitter.numParticles);
 			player.stepSimulation();
 		}
-		assertEquals(102, EmitterValueObject(sim.emitters[0]).emitter.numParticles);
-		assertEquals(26, EmitterValueObject(sim.emitters[0]).emitter.currentTime);
+		assertEquals(102, BaseEmitterValueObject(sim.emitters[0]).emitter.numParticles);
+		assertEquals(26, BaseEmitterValueObject(sim.emitters[0]).emitter.currentTime);
 	}
 
 	[Test(async)]
@@ -72,16 +72,16 @@ public class SimPlayerTest
 		player.setSimulation(sim, new Sprite());
 
 		player.stepSimulation();
-		assertEquals(1, EmitterValueObject(sim.emitters[0]).emitter.currentTime);
-		assertEquals(1, EmitterValueObject(sim.emitters[1]).emitter.currentTime);
+		assertEquals(1, BaseEmitterValueObject(sim.emitters[0]).emitter.currentTime);
+		assertEquals(1, BaseEmitterValueObject(sim.emitters[1]).emitter.currentTime);
 
 		player.stepSimulation(10);
-		assertEquals(11, EmitterValueObject(sim.emitters[0]).emitter.currentTime);
-		assertEquals(11, EmitterValueObject(sim.emitters[1]).emitter.currentTime);
+		assertEquals(11, BaseEmitterValueObject(sim.emitters[0]).emitter.currentTime);
+		assertEquals(11, BaseEmitterValueObject(sim.emitters[1]).emitter.currentTime);
 
 		player.stepSimulation(3);
-		assertEquals(14, EmitterValueObject(sim.emitters[0]).emitter.currentTime);
-		assertEquals(14, EmitterValueObject(sim.emitters[1]).emitter.currentTime);
+		assertEquals(14, BaseEmitterValueObject(sim.emitters[0]).emitter.currentTime);
+		assertEquals(14, BaseEmitterValueObject(sim.emitters[1]).emitter.currentTime);
 	}
 
 	[Test(async)]
@@ -102,8 +102,8 @@ public class SimPlayerTest
 
 		player.setSimulation(sim, canvas);
 
-		assertEquals(canvas, DisplayObjectHandler(EmitterValueObject(sim.emitters[0]).emitter.particleHandler).container);
-		assertEquals(canvas, DisplayObjectHandler(EmitterValueObject(sim.emitters[1]).emitter.particleHandler).container);
+		assertEquals(canvas, DisplayObjectHandler(BaseEmitterValueObject(sim.emitters[0]).emitter.particleHandler).container);
+		assertEquals(canvas, DisplayObjectHandler(BaseEmitterValueObject(sim.emitters[1]).emitter.particleHandler).container);
 	}
 
 }

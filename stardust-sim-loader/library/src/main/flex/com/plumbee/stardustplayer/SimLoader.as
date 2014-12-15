@@ -1,8 +1,8 @@
 package com.plumbee.stardustplayer
 {
 
+import com.plumbee.stardustplayer.emitter.DisplayListEmitterValueObject;
 import com.plumbee.stardustplayer.emitter.EmitterBuilder;
-import com.plumbee.stardustplayer.emitter.EmitterValueObject;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 import com.plumbee.stardustplayer.sequenceLoader.ISequenceLoader;
 import com.plumbee.stardustplayer.sequenceLoader.LoadByteArrayJob;
@@ -49,14 +49,17 @@ public class SimLoader extends EventDispatcher implements ISimLoader
 
 				const stardustBA : ByteArray = loadedZip.getFileByName(loadedFileName).content;
 				const emitterXml : XML = new XML(stardustBA.readUTFBytes(stardustBA.length));
-
-				_project.emitters[emitterId] = new EmitterValueObject(emitterId, EmitterBuilder.buildEmitter(emitterXml));
+				var emitter : DisplayListEmitterValueObject = new DisplayListEmitterValueObject(emitterId, EmitterBuilder.buildEmitter(emitterXml));
+				_project.emitters[emitterId] = emitter;
+				emitter.prepareForDisplayList();
 
 				const loadImageJob : LoadByteArrayJob = new LoadByteArrayJob(
 						emitterId.toString(),
 						ZipFileNames.getImageName(emitterId),
 						loadedZip.getFileByName(ZipFileNames.getImageName(emitterId)).content);
 				sequenceLoader.addJob(loadImageJob);
+
+
 			}
 		}
 
@@ -76,10 +79,13 @@ public class SimLoader extends EventDispatcher implements ISimLoader
 	{
 		sequenceLoader.removeEventListener(Event.COMPLETE, onProjectAssetsLoaded);
 
-		for each (var emitterVO : EmitterValueObject in _project.emitters)
+		for each (var emitterVO : DisplayListEmitterValueObject in _project.emitters)
 		{
 			const job : LoadByteArrayJob = sequenceLoader.getJobByName(emitterVO.id.toString());
+
+
 			emitterVO.image = Bitmap(job.content).bitmapData;
+
 		}
 		if (sequenceLoader.getJobByName(BACKGROUND_JOB_ID))
 		{

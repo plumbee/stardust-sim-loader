@@ -23,26 +23,6 @@ public class StarlingEmitterValueObjectTest
 	}
 
 	[Test]
-	public function canRemoveDisplayListInitializers() : void
-	{
-		_starlingEmitterValueObject.emitter.addInitializer(new BitmapParticleInit());
-		_starlingEmitterValueObject.emitter.addInitializer(new PooledDisplayObjectClass());
-
-		_starlingEmitterValueObject.removeDisplayListInitializers();
-
-		var found : uint = 0;
-		for (var i : int = 0; i < _starlingEmitterValueObject.emitter.initializers.length; i++)
-		{
-			if (_starlingEmitterValueObject.emitter.initializers[i] is BitmapParticleInit || _starlingEmitterValueObject.emitter.initializers[i] is PooledDisplayObjectClass)
-			{
-				found++;
-			}
-		}
-
-		assertEquals(0, found);
-	}
-
-	[Test]
 	public function canAddStarlingInitializers() : void
 	{
 		_starlingEmitterValueObject.addStarlingInitializers(null);
@@ -86,12 +66,6 @@ class StarlingEmitterValueObjectShunt extends StarlingEmitterValueObject
 	override protected function addPooledStarlingDisplayObjectClass(textures : Vector.<Texture>) : void
 	{
 		calledAddPooledStarlingDisplayObjectClass = true;
-	}
-
-	override public function removeDisplayListInitializers() : void
-	{
-		super.removeDisplayListInitializers();
-		calledRemoveDisplayListInitializers = true;
 	}
 
 	override public function addStarlingInitializers(textures : Vector.<Texture>) : void

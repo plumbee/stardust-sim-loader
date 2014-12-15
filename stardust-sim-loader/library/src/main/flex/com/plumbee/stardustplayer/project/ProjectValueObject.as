@@ -1,7 +1,7 @@
 package com.plumbee.stardustplayer.project
 {
 
-import com.plumbee.stardustplayer.emitter.EmitterValueObject;
+import com.plumbee.stardustplayer.emitter.BaseEmitterValueObject;
 
 import flash.display.DisplayObject;
 import flash.utils.ByteArray;
@@ -10,7 +10,7 @@ import flash.utils.Dictionary;
 public class ProjectValueObject
 {
 	public var version : Number;
-	public const emitters : Dictionary = new Dictionary(); // EmitterValueObject
+	public const emitters : Dictionary = new Dictionary(); // BaseEmitterValueObject
 	public var backgroundColor : uint;
 	public var hasBackground : Boolean;
 	public var backgroundFileName : String;
@@ -56,7 +56,7 @@ public class ProjectValueObject
 	public function get numberOfParticles() : uint
 	{
 		var numParticles : uint = 0;
-		for each (var emVO : EmitterValueObject in emitters)
+		for each (var emVO : BaseEmitterValueObject in emitters)
 		{
 			numParticles += emVO.emitter.numParticles;
 		}
@@ -66,7 +66,7 @@ public class ProjectValueObject
 	/** The simulation will be unusable after calling this method. */
 	public function destroy() : void
 	{
-		for each (var emitterValueObject : EmitterValueObject in emitters)
+		for each (var emitterValueObject : BaseEmitterValueObject in emitters)
 		{
 			emitterValueObject.emitter.clearParticles();
 			emitterValueObject.emitter.clearActions();

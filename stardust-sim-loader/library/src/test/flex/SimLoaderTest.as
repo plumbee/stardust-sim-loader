@@ -2,7 +2,7 @@ package
 {
 import com.plumbee.stardustplayer.SimLoader;
 import com.plumbee.stardustplayer.ZipFileNames;
-import com.plumbee.stardustplayer.emitter.EmitterValueObject;
+import com.plumbee.stardustplayer.emitter.BaseEmitterValueObject;
 import com.plumbee.stardustplayer.project.DisplayModes;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
@@ -64,7 +64,7 @@ public class SimLoaderTest
 	{
 		assertEquals(2, SimLoader(event.target).project.numberOfEmitters);
 
-		const emitter0 : EmitterValueObject = SimLoader(event.target).project.emitters[0];
+		const emitter0 : BaseEmitterValueObject = SimLoader(event.target).project.emitters[0];
 		assertEquals(BlendMode.NORMAL, DisplayObjectHandler(emitter0.emitter.particleHandler).blendMode);
 		assertEquals(12, ImpulseClock(emitter0.emitter.clock).burstInterval);
 		assertEquals("firstEmitter", emitter0.emitter.name);
@@ -74,7 +74,7 @@ public class SimLoaderTest
 		assertEquals("stardustEmitter_0.xml", ZipFileNames.getXMLName(emitter0.id));
 		assertEquals("emitterImage_0.png", ZipFileNames.getImageName(emitter0.id));
 
-		const emitter1 : EmitterValueObject = SimLoader(event.target).project.emitters[1];
+		const emitter1 : BaseEmitterValueObject = SimLoader(event.target).project.emitters[1];
 		assertEquals(BlendMode.NORMAL, DisplayObjectHandler(emitter1.emitter.particleHandler).blendMode);
 		assertTrue(emitter1.emitter.clock is SteadyClock);
 		assertEquals("emitterImage_1.png", emitter1.emitter.name);
@@ -97,7 +97,7 @@ public class SimLoaderTest
 
 	private function emitters_areParsedCorrectly_loaded(event : Event, passThroughData : Object) : void
 	{
-		const emitter0 : Emitter2D = EmitterValueObject(SimLoader(event.target).project.emitters[0]).emitter;
+		const emitter0 : Emitter2D = BaseEmitterValueObject(SimLoader(event.target).project.emitters[0]).emitter;
 		assertEquals(3, emitter0.sd::actions.length);
 		assertEquals(5, emitter0.sd::initializers.length);
 		assertEquals(34, ImpulseClock(emitter0.clock).impulseCount);
@@ -105,7 +105,7 @@ public class SimLoaderTest
 		assertTrue((emitter0.particleHandler is DisplayObjectHandler));
 		assertEquals(BlendMode.NORMAL, DisplayObjectHandler(emitter0.particleHandler).blendMode);
 
-		const emitter1 : Emitter2D = EmitterValueObject(SimLoader(event.target).project.emitters[1]).emitter;
+		const emitter1 : Emitter2D = BaseEmitterValueObject(SimLoader(event.target).project.emitters[1]).emitter;
 		assertEquals(3, emitter1.sd::actions.length);
 		assertEquals(5, emitter1.sd::initializers.length);
 		assertEquals(1, SteadyClock(emitter1.clock).ticksPerCall);

@@ -1,7 +1,7 @@
 package com.plumbee.stardustplayer
 {
 
-import com.plumbee.stardustplayer.emitter.EmitterValueObject;
+import com.plumbee.stardustplayer.emitter.BaseEmitterValueObject;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
 import flash.display.BitmapData;
@@ -23,7 +23,7 @@ public class SimPlayer
 	public function setSimulation(sim : ProjectValueObject, renderTarget : Object) : void
 	{
 		_sim = sim;
-		for each (var emitterValueObject : EmitterValueObject in sim.emitters)
+		for each (var emitterValueObject : BaseEmitterValueObject in sim.emitters)
 		{
 			const handler : ParticleHandler = emitterValueObject.emitter.particleHandler;
 			if (handler is DisplayObjectHandler)
@@ -51,7 +51,7 @@ public class SimPlayer
 
 	public function stepSimulation(numSteps : uint = 1) : void
 	{
-		for each (var emitterValueObject : EmitterValueObject in _sim.emitters)
+		for each (var emitterValueObject : BaseEmitterValueObject in _sim.emitters)
 		{
 			emitterValueObject.emitter.step(numSteps);
 			if (emitterValueObject.emitter.clock is ImpulseClock)
@@ -68,7 +68,7 @@ public class SimPlayer
 	/** When calling this the Emitter2D objects will be recreated, so make sure you update your references. */
 	public function resetSimulation() : void
 	{
-		for each (var emitterValueObject : EmitterValueObject in _sim.emitters)
+		for each (var emitterValueObject : BaseEmitterValueObject in _sim.emitters)
 		{
 			emitterValueObject.emitter.reset();
 		}

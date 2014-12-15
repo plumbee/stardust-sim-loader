@@ -7,11 +7,15 @@ import flash.net.registerClassAlias;
 import idv.cjcat.stardustextended.common.CommonClassPackage;
 import idv.cjcat.stardustextended.common.StardustElement;
 import idv.cjcat.stardustextended.common.xml.XMLBuilder;
+import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.TwoDClassPackage;
 import idv.cjcat.stardustextended.twoD.display.bitmapParticle.BitmapParticle;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
+import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
+
+use namespace sd;
 
 public class EmitterBuilder
 {
@@ -30,7 +34,26 @@ public class EmitterBuilder
 			builder.registerClass(StarlingHandler);
 		}
 		builder.buildFromXML(sourceXML);
-		return (builder.getElementsByClass(Emitter2D) as Vector.<StardustElement>)[0] as Emitter2D;
+
+		var emitter2D : Emitter2D = (builder.getElementsByClass(Emitter2D) as Vector.<StardustElement>)[0] as Emitter2D;
+		removeDependecies(emitter2D);
+
+		return emitter2D;
+	}
+
+	private static function removeDependecies(emitter2D : Emitter2D) : void
+	{
+		const initializers : Array = emitter2D.sd::initializers;
+
+		for (var i : int = 0; i < initializers.length; i++)
+		{
+
+			if (initializers[i] is PooledDisplayObjectClass)
+			{
+				emitter2D.removeInitializer(initializers[i] as PooledDisplayObjectClass);
+				i = i - 1;
+			}
+		}
 	}
 }
 }

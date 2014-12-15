@@ -3,8 +3,6 @@ package com.plumbee.stardustplayer.emitter
 
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
-import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
-import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -13,7 +11,7 @@ import starling.textures.Texture;
 
 use namespace sd;
 
-public class StarlingEmitterValueObject extends EmitterValueObject
+public class StarlingEmitterValueObject extends BaseEmitterValueObject
 {
 	public function StarlingEmitterValueObject(emitterId : uint, emitter : Emitter2D)
 	{
@@ -22,7 +20,6 @@ public class StarlingEmitterValueObject extends EmitterValueObject
 
 	public function prepareForStarling(textures : Vector.<Texture>) : void
 	{
-		removeDisplayListInitializers();
 		addStarlingInitializers(textures);
 	}
 
@@ -37,18 +34,6 @@ public class StarlingEmitterValueObject extends EmitterValueObject
 		_emitter.addInitializer(new PooledStarlingDisplayObjectClass(StardustStarlingMovieClip, [textures]));
 	}
 
-	public function removeDisplayListInitializers() : void
-	{
-		const initializers : Array = _emitter.sd::initializers;
 
-		for (var i : int = 0; i < initializers.length; i++)
-		{
-			if (initializers[i] is BitmapParticleInit || initializers[i] is PooledDisplayObjectClass)
-			{
-				_emitter.removeInitializer(initializers[i]);
-				i = i - 1;
-			}
-		}
-	}
 }
 }

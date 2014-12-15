@@ -12,13 +12,13 @@ import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 use namespace sd;
 
-public class EmitterValueObject
+public class BaseEmitterValueObject
 {
 	protected var _emitter : Emitter2D;
 	private var _id : uint;
 	private var _image : BitmapData;
 
-	public function EmitterValueObject(emitterId : uint, emitter : Emitter2D)
+	public function BaseEmitterValueObject(emitterId : uint, emitter : Emitter2D)
 	{
 		_emitter = emitter;
 		_id = emitterId;
