@@ -36,7 +36,6 @@ public class StarlingEmitterValueObjectTest
 	{
 		_starlingEmitterValueObject.prepareForStarling(null);
 		assertTrue(_starlingEmitterValueObject.calledAddPooledStarlingDisplayObjectClass);
-		assertTrue(_starlingEmitterValueObject.calledRemoveDisplayListInitializers);
 	}
 }
 }
@@ -52,7 +51,6 @@ class StarlingEmitterValueObjectShunt extends StarlingEmitterValueObject
 
 	public var calledAddPooledStarlingDisplayObjectClass : Boolean;
 	public var calledAddStarlingInitializers : Boolean;
-	public var calledRemoveDisplayListInitializers : Boolean;
 
 	function StarlingEmitterValueObjectShunt(emitterId : uint, emitter : Emitter2D)
 	{
@@ -60,7 +58,6 @@ class StarlingEmitterValueObjectShunt extends StarlingEmitterValueObject
 
 		calledAddPooledStarlingDisplayObjectClass = false;
 		calledAddStarlingInitializers = false;
-		calledRemoveDisplayListInitializers = false;
 	}
 
 	override protected function addPooledStarlingDisplayObjectClass(textures : Vector.<Texture>) : void
