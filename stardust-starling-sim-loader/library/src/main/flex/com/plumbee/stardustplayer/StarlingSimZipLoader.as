@@ -8,9 +8,9 @@ import org.as3commons.zip.Zip;
 public class StarlingSimZipLoader
 {
 
-	public function extractEmittersFromZip(data : ByteArray) : Dictionary
+	public function extractEmittersFromZip(data : ByteArray) : Vector.<ByteArray>
 	{
-		var emitters : Dictionary = new Dictionary();
+		var emitters : Vector.<ByteArray> = new Vector.<ByteArray>();
 		const loadedZip : Zip = new Zip();
 		loadedZip.loadBytes(data);
 		for (var i : int = 0; i < loadedZip.getFileCount(); i++)
@@ -18,8 +18,7 @@ public class StarlingSimZipLoader
 			var loadedFileName : String = loadedZip.getFileAt(i).filename;
 			if (ZipFileNames.isEmitterXMLName(loadedFileName))
 			{
-				var emitterId : uint = ZipFileNames.getEmitterID(loadedFileName);
-				emitters[emitterId] = loadedZip.getFileByName(loadedFileName).content;
+				emitters.push(loadedZip.getFileByName(loadedFileName).content);
 			}
 		}
 

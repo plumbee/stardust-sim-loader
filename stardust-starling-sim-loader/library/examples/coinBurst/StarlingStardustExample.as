@@ -2,13 +2,11 @@ package coinBurst
 {
 import com.plumbee.stardustplayer.SimPlayer;
 import com.plumbee.stardustplayer.StarlingSimBuilder;
-import com.plumbee.stardustplayer.StarlingSimZipLoader;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
 import flash.display.Bitmap;
 import flash.events.Event;
 import flash.utils.ByteArray;
-import flash.utils.Dictionary;
 
 import starling.display.DisplayObjectContainer;
 import starling.display.Sprite;
@@ -52,9 +50,8 @@ public class StarlingStardustExample extends Sprite
 
 		player = new SimPlayer();
 
-		var emitters : Dictionary = new StarlingSimZipLoader().extractEmittersFromZip(assetInstance);
 
-		var project : ProjectValueObject = createProject(emitters);
+		var project : ProjectValueObject = createProject();
 
 		player.setSimulation(project, this);
 
@@ -67,22 +64,15 @@ public class StarlingStardustExample extends Sprite
 		return new TextureAtlas(Texture.fromBitmap(bitmap), new XML(new atlasXML()));
 	}
 
-	private function createProject(emitters : Dictionary) : ProjectValueObject
+	private function createProject() : ProjectValueObject
 	{
-		var emitters : Dictionary = new StarlingSimZipLoader().extractEmittersFromZip(assetInstance);
-
 		var simBuilder : StarlingSimBuilder = new StarlingSimBuilder();
-		var i : int = 0;
-		for each (var emitter2D : ByteArray in emitters)
-		{
-			simBuilder.withEmitter(i, emitter2D);
-			i++;
-		}
-		simBuilder.withTextures(0, "coin", createAtlas(Texture0, AtlasTexture0));
-		simBuilder.withTextures(1, "coin", createAtlas(Texture1, AtlasTexture1));
-		simBuilder.withTextures(2, "coin", createAtlas(Texture2, AtlasTexture2));
 
-		return simBuilder.build();
+		return simBuilder.withSDE(assetInstance)
+				.withTextures("coin", createAtlas(Texture0, AtlasTexture0))
+				.withTextures("coin", createAtlas(Texture1, AtlasTexture1))
+				.withTextures("coin", createAtlas(Texture2, AtlasTexture2))
+				.build();
 
 	}
 

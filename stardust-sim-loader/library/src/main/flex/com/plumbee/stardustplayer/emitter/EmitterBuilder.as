@@ -36,12 +36,12 @@ public class EmitterBuilder
 		builder.buildFromXML(sourceXML);
 
 		var emitter2D : Emitter2D = (builder.getElementsByClass(Emitter2D) as Vector.<StardustElement>)[0] as Emitter2D;
-		removeDependecies(emitter2D);
+		removeDependencies(emitter2D);
 
 		return emitter2D;
 	}
 
-	private static function removeDependecies(emitter2D : Emitter2D) : void
+	private static function removeDependencies(emitter2D : Emitter2D) : void
 	{
 		const initializers : Array = emitter2D.sd::initializers;
 
