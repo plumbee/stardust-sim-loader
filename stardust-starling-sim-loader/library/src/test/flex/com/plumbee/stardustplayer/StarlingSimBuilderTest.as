@@ -20,6 +20,9 @@ use namespace sd;
 
 public class StarlingSimBuilderTest
 {
+	private static const SDE_NUMBER_OF_TEXTURES : int = 3;
+	private static const TEXTURE_PREFIX : String = "coin";
+
 	[Embed(source="../../../../../test/resources/emitter.xml", mimeType="application/octet-stream")]
 	private static var XmlSource : Class;
 	private var xmlInstance : ByteArray;
@@ -29,6 +32,10 @@ public class StarlingSimBuilderTest
 
 	[Embed(source="../../../../../test/resources/textureAtlas.xml", mimeType="application/octet-stream")]
 	public static const AtlasTexture0 : Class;
+	//The test sde contains 3 textures.
+	[Embed(source="../../../../../test/resources/coins_particles.sde", mimeType='application/octet-stream')]
+	private static var Asset : Class;
+	private var sdeInstance : ByteArray;
 
 
 	[Before(async, timeout=15500)]
@@ -36,6 +43,7 @@ public class StarlingSimBuilderTest
 	{
 
 		xmlInstance = new XmlSource();
+		sdeInstance = new Asset();
 		Async.proceedOnEvent(this, FlexUnitStarlingIntegration.nativeStage, FlexUnitStarlingIntegrationEvent.CONTEXT_CREATED, 15500);
 		FlexUnitStarlingIntegration.createStarlingContext();
 	}
@@ -53,12 +61,13 @@ public class StarlingSimBuilderTest
 		new StarlingSimBuilder().withEmitter(0, xmlInstance).build();
 	}
 
+
 	[Test]
 	public function canBuildWithEmitterAndTexture() : void
 	{
 		var projectValueObject : ProjectValueObject = new StarlingSimBuilder()
 				.withEmitter(0, xmlInstance)
-				.withTextures("coin", createAtlas(Texture0, AtlasTexture0))
+				.withTextures(TEXTURE_PREFIX, createAtlas(Texture0, AtlasTexture0))
 				.build();
 
 		assertEquals(projectValueObject.numberOfEmitters, 1);
@@ -66,6 +75,37 @@ public class StarlingSimBuilderTest
 		var starlingEmitterVO : StarlingEmitterValueObject = projectValueObject.emitters[0] as StarlingEmitterValueObject;
 
 		assertThatContainsStarlingDisplayObjectClassInitializer(starlingEmitterVO);
+	}
+
+
+	[Test]
+	public function canBuidWithSDEandTextures() : void
+	{
+		var projectValueObject : ProjectValueObject = new StarlingSimBuilder()
+				.withSDE(sdeInstance)
+				.withTextures(TEXTURE_PREFIX, createAtlas(Texture0, AtlasTexture0))
+				.withTextures(TEXTURE_PREFIX, createAtlas(Texture0, AtlasTexture0))
+				.withTextures(TEXTURE_PREFIX, createAtlas(Texture0, AtlasTexture0))
+				.build();
+
+		assertEquals(projectValueObject.numberOfEmitters, SDE_NUMBER_OF_TEXTURES);
+
+		assertThatContainsStarlingDisplayObjectClassInitializer(projectValueObject.emitters[0] as StarlingEmitterValueObject);
+		assertThatContainsStarlingDisplayObjectClassInitializer(projectValueObject.emitters[1] as StarlingEmitterValueObject);
+		assertThatContainsStarlingDisplayObjectClassInitializer(projectValueObject.emitters[2] as StarlingEmitterValueObject);
+
+	}
+
+	[Test(expects="Error")]
+	public function cantBuildWithOnlySDE() : void
+	{
+		new StarlingSimBuilder().withSDE(sdeInstance).build();
+	}
+
+	[Test(expects="Error")]
+	public function cantBuildWithEmittersAndTextures() : void
+	{
+		new StarlingSimBuilder().build();
 	}
 
 	private function assertThatContainsStarlingDisplayObjectClassInitializer(starlingEmitterVO : StarlingEmitterValueObject) : void
@@ -78,17 +118,14 @@ public class StarlingSimBuilderTest
 				containsStarlingDisplayObjectClass = true;
 			}
 		}
-
 		assertTrue(containsStarlingDisplayObjectClass);
 	}
-
 
 	private function createAtlas(atlasTexture : Class, atlasXML : Class) : TextureAtlas
 	{
 		var bitmap : Bitmap = new atlasTexture();
 		return new TextureAtlas(Texture.fromBitmap(bitmap), new XML(new atlasXML()));
 	}
-
 
 }
 }

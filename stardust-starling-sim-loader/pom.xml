@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.plumbee</groupId>
+        <artifactId>sim-loader-parent</artifactId>
+        <version>2.58</version>
+    </parent>
+
+    <groupId>com.plumbee</groupId>
+    <artifactId>stardust-starling-sim-loader</artifactId>
+    <packaging>swc</packaging>
+    <!-- Implicit version inheritance from parent via omitted version tag here -->
+
+    <name>Stardust Starling Sim Loader</name>
+
+    <properties>
+        <starling.version>1.5.1</starling.version>
+        <stardust-sim-loader.version>${parent.version}</stardust-sim-loader.version>
+    </properties>
+
+    <build>
+        <sourceDirectory>library/src/main/flex</sourceDirectory>
+        <testSourceDirectory>library/src/test/flex</testSourceDirectory>
+
+        <finalName>stardust-starling-sim-loader</finalName>
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <includeProperties>stardust.library.version</includeProperties>
+                    <allowSnapshots>false</allowSnapshots>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>net.flexmojos.oss</groupId>
+                <artifactId>flexmojos-maven-plugin</artifactId>
+                <version>${flexmojos.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <coverage>false</coverage>
+                    <targetPlayer>${flash.player.version}</targetPlayer>
+                    <swfVersion>${swf.version}</swfVersion>
+                    <testTimeout>200000</testTimeout>
+                    <accessible>false</accessible>
+                    <verifyDigests>false</verifyDigests>
+                    <compilerWarnings>
+                        <warn-no-constructor>false</warn-no-constructor>
+                    </compilerWarnings>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.adobe.flex</groupId>
+                        <artifactId>compiler</artifactId>
+                        <version>${flex.sdk.version}</version>
+                        <type>pom</type>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- Maven plugin to enforce dependency convergence
+            <DependencyConvergence /> rule requires that dependency version numbers converge.
+            If a project has two dependencies, A and B, both depending on the same artifact, C, this rule will
+            fail the build if A depends on a different version of C then the version of C depended on by B. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <rules>
+                                <DependencyConvergence/>
+                            </rules>
+                        </configuration>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.gamua</groupId>
+            <artifactId>starling-framework</artifactId>
+            <version>${starling.version}</version>
+            <type>swc</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.plumbee</groupId>
+            <artifactId>stardust-sim-loader</artifactId>
+            <version>${stardust-sim-loader.version}</version>
+            <type>swc</type>
+        </dependency>
+    </dependencies>
+</project>

@@ -5,7 +5,6 @@ import com.plumbee.stardustplayer.emitter.StarlingEmitterValueObject;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
 import flash.utils.ByteArray;
-import flash.utils.Dictionary;
 
 import starling.textures.TextureAtlas;
 
@@ -14,6 +13,16 @@ public class StarlingSimBuilder
 	private var _project : ProjectValueObject;
 	private var texturesCount : int;
 
+	/* CURRENT USAGE:
+	 var projectVO : ProjectValueObject = simBuilder.withSDE(assetInstance)
+	 .withTextures("coin", createAtlas(Texture0, AtlasTexture0))
+	 .withTextures("coin", createAtlas(Texture1, AtlasTexture1))
+	 .withTextures("coin", createAtlas(Texture2, AtlasTexture2))
+	 .build();
+
+	 The textures must be in the order they were introduced in the XML.
+
+	 */
 	public function StarlingSimBuilder()
 	{
 		_project = new ProjectValueObject();
@@ -68,10 +77,16 @@ public class StarlingSimBuilder
 
 	public function build() : ProjectValueObject
 	{
+		if(_project.numberOfEmitters==0) {
+			throw new Error("You cannot build without emitters!");
+		}
+
 		if (_project.numberOfEmitters != texturesCount)
 		{
 			throw new Error("You need a texture per emitter.");
 		}
+
+
 
 		return _project;
 	}
