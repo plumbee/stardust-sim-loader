@@ -12,6 +12,7 @@ import idv.cjcat.stardustextended.twoD.TwoDClassPackage;
 import idv.cjcat.stardustextended.twoD.display.bitmapParticle.BitmapParticle;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
+import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -36,21 +37,20 @@ public class EmitterBuilder
 		builder.buildFromXML(sourceXML);
 
 		var emitter2D : Emitter2D = (builder.getElementsByClass(Emitter2D) as Vector.<StardustElement>)[0] as Emitter2D;
-		removeDependencies(emitter2D);
+		removeRenderingDependencies(emitter2D);
 
 		return emitter2D;
 	}
 
-	private static function removeDependencies(emitter2D : Emitter2D) : void
+	public static function removeRenderingDependencies(emitter : Emitter2D) : void
 	{
-		const initializers : Array = emitter2D.sd::initializers;
+		const initializers : Array = emitter.sd::initializers;
 
 		for (var i : int = 0; i < initializers.length; i++)
 		{
-
-			if (initializers[i] is PooledDisplayObjectClass)
+			if (initializers[i] is StarlingDisplayObjectClass || initializers[i] is PooledDisplayObjectClass || initializers[i] is PooledStarlingDisplayObjectClass/* || initializers[i] is BitmapParticleInit*/)
 			{
-				emitter2D.removeInitializer(initializers[i] as PooledDisplayObjectClass);
+				emitter.removeInitializer(initializers[i]);
 				i = i - 1;
 			}
 		}

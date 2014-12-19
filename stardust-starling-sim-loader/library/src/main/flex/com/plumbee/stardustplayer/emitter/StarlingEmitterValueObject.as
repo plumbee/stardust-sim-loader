@@ -25,7 +25,7 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject
 
 	public function addStarlingInitializers(textures : Vector.<Texture>) : void
 	{
-		_emitter.particleHandler = new StarlingHandler(Starling.context);
+		_emitter.particleHandler = new StarlingHandler();
 		addPooledStarlingDisplayObjectClass(textures);
 	}
 

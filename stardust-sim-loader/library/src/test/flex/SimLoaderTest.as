@@ -3,6 +3,7 @@ package
 import com.plumbee.stardustplayer.SimLoader;
 import com.plumbee.stardustplayer.ZipFileNames;
 import com.plumbee.stardustplayer.emitter.BaseEmitterValueObject;
+import com.plumbee.stardustplayer.emitter.DisplayListEmitterValueObject;
 import com.plumbee.stardustplayer.project.DisplayModes;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
@@ -64,7 +65,7 @@ public class SimLoaderTest
 	{
 		assertEquals(2, SimLoader(event.target).project.numberOfEmitters);
 
-		const emitter0 : BaseEmitterValueObject = SimLoader(event.target).project.emitters[0];
+		const emitter0 : DisplayListEmitterValueObject = SimLoader(event.target).project.emitters[0];
 		assertEquals(BlendMode.NORMAL, DisplayObjectHandler(emitter0.emitter.particleHandler).blendMode);
 		assertEquals(12, ImpulseClock(emitter0.emitter.clock).burstInterval);
 		assertEquals("firstEmitter", emitter0.emitter.name);
@@ -74,7 +75,7 @@ public class SimLoaderTest
 		assertEquals("stardustEmitter_0.xml", ZipFileNames.getXMLName(emitter0.id));
 		assertEquals("emitterImage_0.png", ZipFileNames.getImageName(emitter0.id));
 
-		const emitter1 : BaseEmitterValueObject = SimLoader(event.target).project.emitters[1];
+		const emitter1 : DisplayListEmitterValueObject = SimLoader(event.target).project.emitters[1];
 		assertEquals(BlendMode.NORMAL, DisplayObjectHandler(emitter1.emitter.particleHandler).blendMode);
 		assertTrue(emitter1.emitter.clock is SteadyClock);
 		assertEquals("emitterImage_1.png", emitter1.emitter.name);

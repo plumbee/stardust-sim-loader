@@ -40,7 +40,6 @@ public class ProjectValueObject
 				displayMode = DisplayModes.DISPLAY_LIST;
 			}
 		}
-
 	}
 
 	public function get numberOfEmitters() : int
@@ -68,13 +67,10 @@ public class ProjectValueObject
 	{
 		for each (var emitterValueObject : BaseEmitterValueObject in emitters)
 		{
-			emitterValueObject.emitter.clearParticles();
-			emitterValueObject.emitter.clearActions();
-			emitterValueObject.emitter.clearInitializers();
-			emitterValueObject.image = null;
-
+			emitterValueObject.destroy();
 			delete emitters[emitterValueObject.id];
 		}
+
 		backgroundImage = null;
 	}
 

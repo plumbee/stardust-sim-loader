@@ -1,14 +1,8 @@
 package com.plumbee.stardustplayer.emitter
 {
 
-import flash.display.BitmapData;
-
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
-import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
-import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
-import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
-import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 use namespace sd;
 
@@ -16,7 +10,6 @@ public class BaseEmitterValueObject
 {
 	protected var _emitter : Emitter2D;
 	private var _id : uint;
-	private var _image : BitmapData;
 
 	public function BaseEmitterValueObject(emitterId : uint, emitter : Emitter2D)
 	{
@@ -34,40 +27,11 @@ public class BaseEmitterValueObject
 		return _emitter;
 	}
 
-	public function get image() : BitmapData
+	public function destroy() : void
 	{
-		return _image;
-	}
-
-	public function get smoothing() : Boolean
-	{
-		const inits : Array = _emitter.sd::initializers;
-		const numInits : uint = inits.length;
-		for (var i : uint = 0; i < numInits; i++)
-		{
-			var bitmapInit : BitmapParticleInit = inits[i] as BitmapParticleInit;
-			if (bitmapInit)
-			{
-				return bitmapInit.smoothing;
-			}
-		}
-
-		return false;
-	}
-
-	public function set image(imageBD : BitmapData) : void
-	{
-		_image = imageBD;
-		const initializers : Array = _emitter.sd::initializers;
-		for (var k : int = 0; k < initializers.length; k++)
-		{
-			var bitmapParticleInit : BitmapParticleInit = initializers[k] as BitmapParticleInit;
-			if (bitmapParticleInit)
-			{
-				bitmapParticleInit.bitmapData = _image;
-				return;
-			}
-		}
+		emitter.clearParticles();
+		emitter.clearActions();
+		emitter.clearInitializers();
 	}
 }
 }
