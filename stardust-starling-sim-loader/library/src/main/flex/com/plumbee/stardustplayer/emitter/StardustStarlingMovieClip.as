@@ -9,10 +9,12 @@ import idv.cjcat.stardustextended.twoD.display.IStardustSprite;
 import idv.cjcat.stardustextended.twoD.display.bitmapParticle.IBitmapParticle;
 import idv.cjcat.stardustextended.twoD.starling.IStardustStarlingParticle;
 
+import starling.core.Starling;
+
 import starling.display.MovieClip;
 import starling.textures.Texture;
 
-public class StardustStarlingMovieClip extends MovieClip implements IStardustStarlingParticle, IBitmapParticle, IStardustSprite
+public class StardustStarlingMovieClip extends MovieClip implements IStardustStarlingParticle, IStardustSprite
 {
 
 	public function StardustStarlingMovieClip(textures : Vector.<Texture>)
@@ -40,21 +42,9 @@ public class StardustStarlingMovieClip extends MovieClip implements IStardustSta
 		return rotation * Math.PI / 180;
 	}
 
-	public function initWithSingleBitmap(bitmapData : BitmapData, _smoothing : Boolean) : void
-	{
-	}
-
-	public function initWithSpriteSheet(imgWidth : int, imgHeight : int, _animSpeed : uint, startAtRandomFrame : Boolean, bitmapData : BitmapData, _smoothing : Boolean) : void
-	{
-	}
-
-	public function stepSpriteSheet(stepTime : uint) : void
-	{
-		advanceTime(stepTime);
-	}
-
 	public function init(particle : Particle) : void
 	{
+		Starling.juggler.add(this);
 		initializeFromTexture();
 	}
 
@@ -72,6 +62,7 @@ public class StardustStarlingMovieClip extends MovieClip implements IStardustSta
 
 	public function disable() : void
 	{
+		Starling.juggler.remove(this);
 	}
 }
 }
