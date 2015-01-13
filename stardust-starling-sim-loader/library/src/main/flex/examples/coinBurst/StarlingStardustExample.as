@@ -1,6 +1,7 @@
-package coinBurst
+package examples.coinBurst
 {
 import com.plumbee.stardustplayer.SimPlayer;
+import com.plumbee.stardustplayer.SimTimeModel;
 import com.plumbee.stardustplayer.StarlingSimBuilder;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 
@@ -22,6 +23,7 @@ public class StarlingStardustExample extends Sprite
 
 	public static var canvas : DisplayObjectContainer;
 	private var player : SimPlayer;
+	private var simTimeModel : SimTimeModel;
 
 	[Embed(source="emitterImage_0.png")]
 	public static const Texture0 : Class;
@@ -49,6 +51,7 @@ public class StarlingStardustExample extends Sprite
 		canvas = this;
 
 		player = new SimPlayer();
+		simTimeModel = new SimTimeModel();
 
 
 		var project : ProjectValueObject = createProject();
@@ -78,7 +81,25 @@ public class StarlingStardustExample extends Sprite
 
 	private function onEnterFrame(event : EnterFrameEvent) : void
 	{
-		player.stepSimulation();
+		simTimeModel.update();
+
+		////////////////////////////////////////////////////////////////
+		// Example ways to run simulation updates
+		// (Uncomment one of below steps (1 - 3) to run simulation differently
+
+		// 1) updates simulation with constant time step equal to 1 stardust time unit
+		// This runs frame rate dependant simulation, the more fps the quicker the simulation happens
+//		player.stepSimulation(1);
+
+		// 2) updates simulation with varying time step in milliseconds normalized to stardust time domain
+		// This runs frame rate independent simulation
+		// (but significantly varying time step or very low frame rate will influence simulation behaviour)
+//		player.stepSimulation(simTimeModel.timeStepNormalizedTo60fps);
+
+		// 3) updates simulation with varying time step splitting big steps into number of smaller steps when needed.
+		// This runs truly frame rate independent simulation
+		// (assures that the particles behaviour looks the same no matter what the frame rate is)
+		player.stepSimulationWithSubsteps(simTimeModel.timeStep, SimTimeModel.msFor60FPS);
 	}
 }
 }

@@ -1,8 +1,9 @@
-package
+package examples
 {
 
 import com.plumbee.stardustplayer.SimLoader;
 import com.plumbee.stardustplayer.SimPlayer;
+import com.plumbee.stardustplayer.SimTimeModel;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -13,9 +14,11 @@ public class ExampleSimPlayer extends Sprite
 
 	private var loader : SimLoader;
 	private var player : SimPlayer;
+	private var timeModel : SimTimeModel;
 
 	public function ExampleSimPlayer()
 	{
+		timeModel = new SimTimeModel();
 		player = new SimPlayer();
 		loader = new SimLoader();
 	}
@@ -29,6 +32,7 @@ public class ExampleSimPlayer extends Sprite
 
 	private function onSimLoaded(event : Event) : void
 	{
+		timeModel.resetTime();
 		player.setSimulation(loader.project, this);
 		// step the simulation on every frame
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -36,7 +40,8 @@ public class ExampleSimPlayer extends Sprite
 
 	private function onEnterFrame(event : Event) : void
 	{
-		player.stepSimulation();
+		timeModel.update();
+		player.stepSimulation(timeModel.timeStepNormalizedTo60fps);
 	}
 
 }

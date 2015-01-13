@@ -1,11 +1,14 @@
-package glitterburst
+package examples.glitterburst
 {
+
+import examples.ExampleSimPlayer;
+import examples.PlayButton;
 
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.utils.ByteArray;
 
-[SWF(width="400", height="250", backgroundColor="#454545", frameRate="40")]
+[SWF(width="400", height="250", backgroundColor="#454545", frameRate="60")]
 public class GlitterBurstExample extends Sprite
 {
 	[Embed(source="glitter_burst.sde", mimeType='application/octet-stream')]

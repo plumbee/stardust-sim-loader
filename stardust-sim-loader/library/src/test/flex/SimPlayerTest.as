@@ -2,6 +2,7 @@ package
 {
 import com.plumbee.stardustplayer.SimLoader;
 import com.plumbee.stardustplayer.SimPlayer;
+import com.plumbee.stardustplayer.SimTimeModel;
 import com.plumbee.stardustplayer.emitter.BaseEmitterValueObject;
 import com.plumbee.stardustplayer.project.ProjectValueObject;
 

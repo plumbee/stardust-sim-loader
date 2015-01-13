@@ -49,19 +49,51 @@ public class SimPlayer
 		}
 	}
 
-	public function stepSimulation(numSteps : uint = 1) : void
+	public function stepSimulation(timeStep : Number = 1) : void
 	{
 		for each (var emitterValueObject : BaseEmitterValueObject in _sim.emitters)
 		{
-			emitterValueObject.emitter.step(numSteps);
+			emitterValueObject.emitter.step(timeStep);
 			if (emitterValueObject.emitter.clock is ImpulseClock)
 			{
 				const impulseClock : ImpulseClock = ImpulseClock(emitterValueObject.emitter.clock);
-				if (emitterValueObject.emitter.currentTime % impulseClock.burstInterval == 1)
+				if (emitterValueObject.emitter.currentTime >= impulseClock.nextBurstTime)
 				{
-					ImpulseClock(emitterValueObject.emitter.clock).impulse();
+					const currentTime : Number = emitterValueObject.emitter.currentTime;
+					ImpulseClock(emitterValueObject.emitter.clock).impulse(currentTime);
 				}
 			}
+		}
+	}
+
+	/**
+	 * This is numerically stable simulation step method.
+	 * If current time step exceeds base time step then animation step is performed many times with
+	 * respectively smaller sub steps (while overall substeps time equals initial time step).
+	 * This way the animation actors spatial properties (such as position, rotation etc.)
+	 * are not affected by the lower frame rates.
+	 * This means that animation will look exactly the same despite the varying frame rate.
+	 *
+	 * (Note that when there is a massive amount of particles this simulation method may affect performance a lot)
+	 *
+	 * @param timeStep Current simulation step advance time in milliseconds.
+	 * @param baseTimeStep Expected time for one frame of the simulation in milliseconds (for 60 fps == 1/60 * 1000 ms)
+	 */
+	public function stepSimulationWithSubsteps(timeStep : Number, baseTimeStep : Number = SimTimeModel.msFor60FPS) : void
+	{
+		var substepsCount : Number = Math.floor(timeStep / baseTimeStep);
+		var remainingTime : Number = timeStep - substepsCount * baseTimeStep;
+
+		// Perform "substepsCount" amount of full "baseTimeStep" lasting steps
+		while (substepsCount-- > 0)
+		{
+			stepSimulation(1);
+		}
+
+		// Perform step to cover remaining time
+		if (remainingTime > 0)
+		{
+			stepSimulation(remainingTime / baseTimeStep);
 		}
 	}
 

@@ -1,12 +1,10 @@
 package com.plumbee.stardustplayer.emitter
 {
 
-import flash.display.BitmapData;
 
 import idv.cjcat.stardustextended.common.emitters.Emitter;
 import idv.cjcat.stardustextended.common.particles.Particle;
 import idv.cjcat.stardustextended.twoD.display.IStardustSprite;
-import idv.cjcat.stardustextended.twoD.display.bitmapParticle.IBitmapParticle;
 import idv.cjcat.stardustextended.twoD.starling.IStardustStarlingParticle;
 
 import starling.core.Starling;
@@ -20,7 +18,7 @@ public class StardustStarlingMovieClip extends MovieClip implements IStardustSta
 	public function StardustStarlingMovieClip(textures : Vector.<Texture>)
 	{
 		//TODO: Handle the framerate
-		super(textures, 30);
+		super(textures, 60);
 		initializeFromTexture();
 	}
 
