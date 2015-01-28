@@ -113,7 +113,6 @@
         <dependency>
             <groupId>com.plumbee</groupId>
             <artifactId>client-unit-testing</artifactId>
-
             <scope>test</scope>
             <type>swc</type>
         </dependency>

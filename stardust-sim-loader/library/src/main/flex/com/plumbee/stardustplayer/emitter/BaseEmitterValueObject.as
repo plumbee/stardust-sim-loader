@@ -33,5 +33,10 @@ public class BaseEmitterValueObject
 		emitter.clearActions();
 		emitter.clearInitializers();
 	}
+
+	public function resetEmitter() : void
+	{
+		emitter.reset();
+	}
 }
 }
