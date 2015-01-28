@@ -40,6 +40,7 @@
                 <version>${flexmojos.version}</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <storepass/>
                     <coverage>false</coverage>
                     <targetPlayer>${flash.player.version}</targetPlayer>
                     <swfVersion>${swf.version}</swfVersion>
@@ -110,35 +111,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.adobe.flexunit</groupId>
-            <artifactId>flexunit</artifactId>
-            <version>${flexunit.version}</version>
-            <type>swc</type>
+            <groupId>com.plumbee</groupId>
+            <artifactId>client-unit-testing</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>asmock</groupId>
-            <artifactId>asmock</artifactId>
-            <version>${asmock.version}</version>
             <type>swc</type>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>asmock</groupId>
-            <artifactId>asmock-flexunit4.1</artifactId>
-            <version>${asmock.version}</version>
-            <type>swc</type>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-as3</artifactId>
-            <version>${hamcrest.version}</version>
-            <type>swc</type>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

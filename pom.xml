@@ -24,14 +24,13 @@
         <dependency.plugin.version>2.8</dependency.plugin.version>
         <flex.sdk.version>4.6.0.23201</flex.sdk.version>
         <flexmojos.version>5.1-beta-QP</flexmojos.version>
-        <hamcrest.version>1.1</hamcrest.version>
-        <asmock.version>1.0</asmock.version>
-        <flexunit.version>4.1.0</flexunit.version>
         <swf.version>18</swf.version>
         <flash.player.version>11.7</flash.player.version>
+        <client.unit.testing.version>1.87</client.unit.testing.version>
 
         <includeProperties>
-            stardust.library.version
+            stardust.library.version,
+            client.unit.testing.version
         </includeProperties>
     </properties>
 
@@ -147,41 +146,17 @@
         </dependency>
 
         <dependency>
-            <groupId>com.adobe.flexunit</groupId>
-            <artifactId>flexunit</artifactId>
-            <version>${flexunit.version}</version>
+            <groupId>com.plumbee</groupId>
+            <artifactId>stardust-library</artifactId>
+            <version>${stardust.library.version}</version>
             <type>swc</type>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>asmock</groupId>
-            <artifactId>asmock</artifactId>
-            <version>${asmock.version}</version>
-            <type>swc</type>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>asmock</groupId>
-            <artifactId>asmock-flexunit4.1</artifactId>
-            <version>${asmock.version}</version>
-            <type>swc</type>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-as3</artifactId>
-            <version>${hamcrest.version}</version>
-            <type>swc</type>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.plumbee</groupId>
-            <artifactId>stardust-library</artifactId>
-            <version>${stardust.library.version}</version>
+            <artifactId>client-unit-testing</artifactId>
+            <version>${client.unit.testing.version}</version>
+            <scope>test</scope>
             <type>swc</type>
         </dependency>
 
