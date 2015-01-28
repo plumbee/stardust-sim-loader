@@ -123,51 +123,53 @@
         <!--</plugins>-->
     <!--</build>-->
 
-    <dependencies>
-        <!-- Flex needs to be excluded here, otherwise will compile for FP 10 for some reason -->
-        <dependency>
-            <groupId>com.adobe.flex.framework</groupId>
-            <artifactId>flex-framework</artifactId>
-            <version>${flex.sdk.version}</version>
-            <type>pom</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.adobe.flash.framework</groupId>
-                    <artifactId>playerglobal</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Flex needs to be excluded here, otherwise will compile for FP 10 for some reason -->
+            <dependency>
+                <groupId>com.adobe.flex.framework</groupId>
+                <artifactId>flex-framework</artifactId>
+                <version>${flex.sdk.version}</version>
+                <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.adobe.flash.framework</groupId>
+                        <artifactId>playerglobal</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-        <dependency>
-            <groupId>com.adobe.flex.framework</groupId>
-            <artifactId>playerglobal</artifactId>
-            <version>${flash.player.version}</version>
-            <type>swc</type>
-        </dependency>
+            <dependency>
+                <groupId>com.adobe.flex.framework</groupId>
+                <artifactId>playerglobal</artifactId>
+                <version>${flash.player.version}</version>
+                <type>swc</type>
+            </dependency>
 
-        <dependency>
-            <groupId>com.plumbee</groupId>
-            <artifactId>stardust-library</artifactId>
-            <version>${stardust.library.version}</version>
-            <type>swc</type>
-        </dependency>
+            <dependency>
+                <groupId>com.plumbee</groupId>
+                <artifactId>stardust-library</artifactId>
+                <version>${stardust.library.version}</version>
+                <type>swc</type>
+            </dependency>
 
-        <dependency>
-            <groupId>com.plumbee</groupId>
-            <artifactId>client-unit-testing</artifactId>
-            <version>${client.unit.testing.version}</version>
-            <scope>test</scope>
-            <type>swc</type>
-        </dependency>
+            <dependency>
+                <groupId>com.plumbee</groupId>
+                <artifactId>client-unit-testing</artifactId>
+                <version>${client.unit.testing.version}</version>
+                <scope>test</scope>
+                <type>swc</type>
+            </dependency>
 
-        <!-- AS3Commons Zip library SVN 08 Jan 2014.
-        We did not find a public repo for the latest version, thus we are hosting it. -->
-        <dependency>
-            <groupId>org.as3commons</groupId>
-            <artifactId>as3commons-zip</artifactId>
-            <version>1.0-PLUMBEE</version>
-            <type>swc</type>
-        </dependency>
+            <!-- AS3Commons Zip library SVN 08 Jan 2014.
+            We did not find a public repo for the latest version, thus we are hosting it. -->
+            <dependency>
+                <groupId>org.as3commons</groupId>
+                <artifactId>as3commons-zip</artifactId>
+                <version>1.0-PLUMBEE</version>
+                <type>swc</type>
+            </dependency>
 
-    </dependencies>
+        </dependencies>
+    </dependencyManagement>
 </project>

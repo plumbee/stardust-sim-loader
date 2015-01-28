@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,8 +17,8 @@
     <name>Stardust Starling Sim Loader</name>
 
     <properties>
-        <starling.version>1.5.1</starling.version>
-        <stardust-sim-loader.version>${parent.version}</stardust-sim-loader.version>
+        <starling.version>1.4</starling.version>
+        <stardust-sim-loader.version>${project.parent.version}</stardust-sim-loader.version>
     </properties>
 
     <build>
@@ -93,6 +93,7 @@
     </build>
 
     <dependencies>
+
         <dependency>
             <groupId>com.gamua</groupId>
             <artifactId>starling-framework</artifactId>
@@ -106,5 +107,14 @@
             <version>${stardust-sim-loader.version}</version>
             <type>swc</type>
         </dependency>
+
+        <dependency>
+            <groupId>com.plumbee</groupId>
+            <artifactId>client-unit-testing</artifactId>
+            <scope>test</scope>
+            <type>swc</type>
+        </dependency>
+
     </dependencies>
+
 </project>
