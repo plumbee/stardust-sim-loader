@@ -38,5 +38,13 @@ public class BaseEmitterValueObject implements IBaseEmitter
 	{
 		emitter.reset();
 	}
+
+	public function removeRendererSpecificInitializers() : void
+	{
+		for each(var initializerClass : Class in RendererSpecificInitializers.getList())
+		{
+			emitter.removeInitializersByClass(initializerClass);
+		}
+	}
 }
 }

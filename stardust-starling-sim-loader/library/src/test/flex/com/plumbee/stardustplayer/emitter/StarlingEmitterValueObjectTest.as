@@ -2,12 +2,14 @@ package com.plumbee.stardustplayer.emitter
 {
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
-import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
-import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
-import org.flexunit.asserts.assertEquals;
+import org.flexunit.assertThat;
 import org.flexunit.asserts.assertTrue;
+import org.hamcrest.object.strictlyEqualTo;
+
+import starling.display.DisplayObjectContainer;
+import starling.display.Sprite;
 
 use namespace sd;
 
@@ -19,7 +21,6 @@ public class StarlingEmitterValueObjectTest
 	public function setUp() : void
 	{
 		_starlingEmitterValueObject = new StarlingEmitterValueObjectShunt(0, new Emitter2D());
-
 	}
 
 	[Test]
@@ -36,6 +37,18 @@ public class StarlingEmitterValueObjectTest
 	{
 		_starlingEmitterValueObject.prepareForStarling(null);
 		assertTrue(_starlingEmitterValueObject.calledAddPooledStarlingDisplayObjectClass);
+	}
+
+
+	[Test]
+	public function updatecanvas_setsEmitterParticleHandlerContainer() : void
+	{
+		var targetCanvas : DisplayObjectContainer = new Sprite();
+		var handler : StarlingHandler = new StarlingHandler();
+		var emitter : Emitter2D = new Emitter2D(null, handler);
+		var vo : StarlingEmitterValueObject = new StarlingEmitterValueObject(0, emitter);
+		vo.updateHandlerCanvas(targetCanvas);
+		assertThat(handler.container, strictlyEqualTo(targetCanvas));
 	}
 }
 }

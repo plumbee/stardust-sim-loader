@@ -6,12 +6,13 @@ import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
-import starling.core.Starling;
+import starling.display.DisplayObjectContainer;
+
 import starling.textures.Texture;
 
 use namespace sd;
 
-public class StarlingEmitterValueObject extends BaseEmitterValueObject
+public class StarlingEmitterValueObject extends BaseEmitterValueObject implements IStarlingEmitter
 {
 	public function StarlingEmitterValueObject(emitterId : uint, emitter : Emitter2D)
 	{
@@ -35,5 +36,9 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject
 	}
 
 
+	public function updateHandlerCanvas(canvas : DisplayObjectContainer) : void
+	{
+		(emitter.particleHandler as StarlingHandler).container = canvas;
+	}
 }
 }

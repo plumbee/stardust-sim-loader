@@ -9,8 +9,6 @@ import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.handlers.DisplayObjectHandler;
 import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
 import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
-import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
-import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
 
 use namespace sd;
 
@@ -68,14 +66,6 @@ public class DisplayListEmitterValueObject extends BaseEmitterValueObject implem
 	public function updateHandlerCanvas(canvas : DisplayObjectContainer) : void
 	{
 		(emitter.particleHandler as DisplayObjectHandler).container = canvas;
-	}
-
-	public function removeRendererSpecificInitializers() : void
-	{
-		for each(var initializerClass : Class in RendererSpecificInitializers.getList())
-		{
-			emitter.removeInitializersByClass(initializerClass);
-		}
 	}
 
 	public function prepareForDisplayList() : void

@@ -6,6 +6,5 @@ public interface IDisplayListEmitter extends IBaseEmitter
 {
 	function addDisplayListInitializers() : void;
 	function updateHandlerCanvas(canvas:DisplayObjectContainer) : void;
-	function removeRendererSpecificInitializers() : void;
 }
 }

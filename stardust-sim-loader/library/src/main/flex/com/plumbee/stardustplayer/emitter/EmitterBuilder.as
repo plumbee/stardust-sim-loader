@@ -37,21 +37,11 @@ public class EmitterBuilder
 		builder.buildFromXML(sourceXML);
 
 		var emitter2D : Emitter2D = (builder.getElementsByClass(Emitter2D) as Vector.<StardustElement>)[0] as Emitter2D;
-		removeRendererDependencies(emitter2D);
+		RendererSpecificInitializers.getList().forEach(function(initializerClass:Class,index:int,list:Vector.<Class>):void{
+			emitter2D.removeInitializersByClass(initializerClass);
+		});
 
 		return emitter2D;
-	}
-
-	private static function removeRendererDependencies(emitter2D : Emitter2D) : void
-	{
-		for each(var initializerClass : Class in [
-			StarlingDisplayObjectClass,
-			PooledDisplayObjectClass,
-			PooledStarlingDisplayObjectClass
-		])
-		{
-			emitter2D.removeInitializersByClass(initializerClass);
-		}
 	}
 }
 }
