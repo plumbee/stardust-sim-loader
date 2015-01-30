@@ -37,22 +37,20 @@ public class EmitterBuilder
 		builder.buildFromXML(sourceXML);
 
 		var emitter2D : Emitter2D = (builder.getElementsByClass(Emitter2D) as Vector.<StardustElement>)[0] as Emitter2D;
-		removeRenderingDependencies(emitter2D);
+		removeRendererDependencies(emitter2D);
 
 		return emitter2D;
 	}
 
-	public static function removeRenderingDependencies(emitter : Emitter2D) : void
+	private static function removeRendererDependencies(emitter2D : Emitter2D) : void
 	{
-		const initializers : Array = emitter.sd::initializers;
-
-		for (var i : int = 0; i < initializers.length; i++)
+		for each(var initializerClass : Class in [
+			StarlingDisplayObjectClass,
+			PooledDisplayObjectClass,
+			PooledStarlingDisplayObjectClass
+		])
 		{
-			if (initializers[i] is StarlingDisplayObjectClass || initializers[i] is PooledDisplayObjectClass || initializers[i] is PooledStarlingDisplayObjectClass/* || initializers[i] is BitmapParticleInit*/)
-			{
-				emitter.removeInitializer(initializers[i]);
-				i = i - 1;
-			}
+			emitter2D.removeInitializersByClass(initializerClass);
 		}
 	}
 }

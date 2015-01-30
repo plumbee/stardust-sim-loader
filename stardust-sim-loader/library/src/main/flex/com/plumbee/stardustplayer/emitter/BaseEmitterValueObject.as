@@ -6,7 +6,7 @@ import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 
 use namespace sd;
 
-public class BaseEmitterValueObject
+public class BaseEmitterValueObject implements IBaseEmitter
 {
 	protected var _emitter : Emitter2D;
 	private var _id : uint;
