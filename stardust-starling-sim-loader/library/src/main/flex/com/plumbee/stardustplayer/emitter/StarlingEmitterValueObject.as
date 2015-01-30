@@ -1,13 +1,14 @@
 package com.plumbee.stardustplayer.emitter
 {
 
+import idv.cjcat.stardustextended.common.initializers.Initializer;
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
+import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
 import starling.display.DisplayObjectContainer;
-
 import starling.textures.Texture;
 
 use namespace sd;
@@ -21,24 +22,41 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 
 	public function prepareForStarling(textures : Vector.<Texture>) : void
 	{
-		addStarlingInitializers(textures);
+		emitter.particleHandler = new StarlingHandler();
+		emitter.addInitializer(
+				createStarlingInitializerWithTextures(textures)
+		);
 	}
 
-	public function addStarlingInitializers(textures : Vector.<Texture>) : void
+	public function addStarlingInitializers() : void
 	{
-		_emitter.particleHandler = new StarlingHandler();
-		addPooledStarlingDisplayObjectClass(textures);
+		emitter.particleHandler = new StarlingHandler();
+		var bitmapInits : Vector.<Initializer> = emitter.getInitializersByClass(BitmapParticleInit);
+		if (bitmapInits.length > 1)
+		{
+			throw(new Error("can't have multiple BitmapParticleInit"));
+		}
+		var bitmapInit:BitmapParticleInit = bitmapInits[0] as BitmapParticleInit;
+		emitter.addInitializer(
+				createStarlingInitializerWithTextures(
+						getBitmapToTextureHelper().getTexturesFromBitmapParticleInit(bitmapInit)
+				)
+		);
 	}
-
-	protected function addPooledStarlingDisplayObjectClass(textures : Vector.<Texture>) : void
-	{
-		_emitter.addInitializer(new PooledStarlingDisplayObjectClass(StardustStarlingMovieClip, [textures]));
-	}
-
 
 	public function updateHandlerCanvas(canvas : DisplayObjectContainer) : void
 	{
 		(emitter.particleHandler as StarlingHandler).container = canvas;
+	}
+
+	protected function createStarlingInitializerWithTextures(textures : Vector.<Texture>) : Initializer
+	{
+		return new PooledStarlingDisplayObjectClass(StardustStarlingMovieClip, [textures]);
+	}
+
+	protected function getBitmapToTextureHelper() : BitmapToTextureHelper
+	{
+		return new BitmapToTextureHelper();
 	}
 }
 }
