@@ -51,7 +51,7 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 
 	protected function createStarlingInitializerWithTextures(textures : Vector.<Texture>) : Initializer
 	{
-		return new PooledStarlingDisplayObjectClass(StardustStarlingMovieClip, [textures]);
+		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [textures]);
 	}
 
 	protected function getBitmapToTextureHelper() : BitmapToTextureHelper

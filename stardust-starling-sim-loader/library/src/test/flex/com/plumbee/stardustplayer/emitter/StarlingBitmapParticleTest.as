@@ -6,8 +6,10 @@ import com.plumbee.stardustplayer.FlexUnitStarlingIntegrationEvent;
 import flash.display.BitmapData;
 
 import org.flexunit.assertThat;
+import org.flexunit.asserts.assertEquals;
 import org.flexunit.asserts.assertFalse;
 import org.flexunit.asserts.assertNotNull;
+import org.flexunit.asserts.assertStrictlyEquals;
 import org.flexunit.asserts.assertTrue;
 import org.flexunit.async.Async;
 import org.hamcrest.object.strictlyEqualTo;
@@ -90,6 +92,77 @@ public class StarlingBitmapParticleTest
 		assertTrue(p.setterWasCalled("alpha"));
 	}
 
+
+	[Test]
+	public function whenUpdatesFromModel_rotationIsConvertedToRadians() : void
+	{
+		var p : StarlingBitmapParticleSpy = createWithTexturesAmount(1);
+		var rotationDegs : Number = 180;
+		p.updateFromModel(0, 0, rotationDegs, 0, 0);
+		assertEquals(Math.PI, p.rotation);
+	}
+
+
+	[Test]
+	public function whenUpdatesFromModel_scaleXandYAreSetWithSameValue() : void
+	{
+		var p : StarlingBitmapParticleSpy = createWithTexturesAmount(1);
+		var scale : Number = 100;
+		p.updateFromModel(0, 0, 0, scale, 0);
+		assertEquals(scale, p.scaleY, p.scaleX);
+	}
+
+
+	[Test(description="when not a spritesheet then step to next texture doesn't change the texture")]
+	public function whenStepSpriteSheet_butIsNotSpritesheet_textureDoesNotChange() : void
+	{
+		var p : StarlingBitmapParticleSpy = createWithTexturesAmount(1);
+		var prevTexture : Texture = p.texture;
+		p.stepSpriteSheet(1);
+		assertStrictlyEquals(prevTexture, p.texture);
+	}
+
+
+	[Test]
+	public function whenStepSpriteSheetBy0_textureDoesntChange() : void
+	{
+		var p : StarlingBitmapParticleSpy = createWithTexturesAmount(2);
+		var prevTexture : Texture = p.texture;
+		p.stepSpriteSheet(0);
+		assertStrictlyEquals(prevTexture, p.texture);
+	}
+
+
+	[Test(description="when is a spritesheet then step to next texture updates the texture")]
+	public function whenStepSpriteSheet_toNextFrame_textureIsUpdated() : void
+	{
+		var stepsAmount : uint = 1;
+		var p : StarlingBitmapParticleSpy = createWithTexturesAmount(2);
+		p.stepSpriteSheet(stepsAmount);
+		assertStrictlyEquals(p.getTextures()[stepsAmount], p.texture);
+	}
+
+
+	[Test(description="when amount of steps is greater than amount of textures, destination frame is wrapped around")]
+	public function whenStepSpriteSheet_MoreStepsThanFrames_wrapsValue() : void
+	{
+		var stepsAmount : uint = 2;
+		var p : StarlingBitmapParticleSpy = createWithTexturesAmount(2);
+		p.stepSpriteSheet(stepsAmount);
+		assertStrictlyEquals(p.getTextures()[0], p.texture);
+	}
+
+
+	[Test(description="when stepping sprite twice, texture index advances")]
+	public function whenStepSpriteSheetTwice_textureIndexAdvances() : void
+	{
+		var stepsAmount : uint = 1;
+		var p : StarlingBitmapParticleSpy = createWithTexturesAmount(3);
+		p.stepSpriteSheet(stepsAmount);
+		p.stepSpriteSheet(stepsAmount);
+		assertStrictlyEquals(p.getTextures()[2*stepsAmount], p.texture);
+	}
+
 	[After]
 	public function tearDown() : void
 	{
@@ -129,6 +202,11 @@ import starling.textures.Texture;
 
 class StarlingBitmapParticleSpy extends StarlingBitmapParticle
 {
+
+	public function getTextures() : Vector.<Texture>
+	{
+		return _textures;
+	}
 
 	public function StarlingBitmapParticleSpy(textures : Vector.<Texture>)
 	{

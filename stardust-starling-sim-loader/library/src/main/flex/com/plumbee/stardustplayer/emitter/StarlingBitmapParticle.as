@@ -14,7 +14,7 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 		_textures = textures;
 	}
 
-	private var _textures : Vector.<Texture>;
+	protected var _textures : Vector.<Texture>;
 
 	public function updateFromModel(x : Number, y : Number, rotation : Number, scale : Number, alpha : Number) : void
 	{
@@ -31,6 +31,8 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 
 	public function stepSpriteSheet(stepTime : uint) : void
 	{
+		var index:int = _textures.indexOf(texture);
+		texture = _textures[(stepTime+index)%_textures.length];
 	}
 
 	public function isAnimatedSpriteSheet() : Boolean
