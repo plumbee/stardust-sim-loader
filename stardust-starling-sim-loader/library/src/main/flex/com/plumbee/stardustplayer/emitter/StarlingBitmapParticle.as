@@ -1,7 +1,5 @@
 package com.plumbee.stardustplayer.emitter
 {
-import idv.cjcat.stardustextended.common.emitters.Emitter;
-import idv.cjcat.stardustextended.common.particles.Particle;
 import idv.cjcat.stardustextended.twoD.display.bitmapParticle.IAnimatedParticle;
 import idv.cjcat.stardustextended.twoD.starling.IStardustStarlingParticle;
 
@@ -31,34 +29,26 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 		}
 	}
 
-	public function init(particle : Particle) : void
-	{
-		initializeFromTexture();
-	}
-
-	public function update(emitter : Emitter, particle : Particle, time : Number) : void
-	{
-	}
-
-	public function disable() : void
-	{
-	}
-
 	public function stepSpriteSheet(stepTime : uint) : void
 	{
 	}
 
+	public function isAnimatedSpriteSheet() : Boolean
+	{
+		return _textures.length > 1;
+	}
+
+//	private function initializeFromTexture() : void
+//	{
+//		this.width = texture.width;
+//		this.height = texture.height;
+//		this.pivotX = texture.width / 2;
+//		this.pivotY = texture.height / 2;
+//	}
+
 	private function degreeToRadians(rotation : Number) : Number
 	{
 		return rotation * Math.PI / 180;
-	}
-
-	private function initializeFromTexture() : void
-	{
-		this.width = texture.width;
-		this.height = texture.height;
-		this.pivotX = texture.width / 2;
-		this.pivotY = texture.height / 2;
 	}
 }
 }
