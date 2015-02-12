@@ -12,6 +12,13 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 	{
 		super(textures[0]);
 		_textures = textures;
+		updatePivot();
+	}
+
+	private function updatePivot() : void
+	{
+		pivotX = texture.width / 2;
+		pivotY = texture.height / 2;
 	}
 
 	protected var _textures : Vector.<Texture>;
@@ -35,18 +42,18 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 		texture = _textures[(stepTime+index)%_textures.length];
 	}
 
+	override public function set texture(value : Texture) : void
+	{
+		super.texture = value;
+		width = texture.width;
+		height = texture.height;
+		updatePivot();
+	}
+
 	public function isAnimatedSpriteSheet() : Boolean
 	{
 		return _textures.length > 1;
 	}
-
-//	private function initializeFromTexture() : void
-//	{
-//		this.width = texture.width;
-//		this.height = texture.height;
-//		this.pivotX = texture.width / 2;
-//		this.pivotY = texture.height / 2;
-//	}
 
 	private function degreeToRadians(rotation : Number) : Number
 	{

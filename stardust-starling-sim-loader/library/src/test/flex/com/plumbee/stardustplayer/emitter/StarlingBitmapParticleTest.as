@@ -160,8 +160,68 @@ public class StarlingBitmapParticleTest
 		var p : StarlingBitmapParticleSpy = createWithTexturesAmount(3);
 		p.stepSpriteSheet(stepsAmount);
 		p.stepSpriteSheet(stepsAmount);
-		assertStrictlyEquals(p.getTextures()[2*stepsAmount], p.texture);
+		assertStrictlyEquals(p.getTextures()[2 * stepsAmount], p.texture);
 	}
+
+
+	[Test(description="when creating particle, size is texture size")]
+	public function whenCreatingParticle_particleSizeChangesAccordingly() : void
+	{
+		var texture : Texture = createTexture(2, 3);
+		var p : StarlingBitmapParticleSpy = new StarlingBitmapParticleSpy(Vector.<Texture>([texture]));
+		assertEquals(texture.width, p.width);
+		assertEquals(texture.height, p.height);
+	}
+
+	[Test(description="when creating particle, pivot is texture center")]
+	public function whenCreatingParticle_pivotUpdates() : void
+	{
+		var texture : Texture = createTexture(2, 3);
+		var p : StarlingBitmapParticleSpy = new StarlingBitmapParticleSpy(Vector.<Texture>([texture]));
+		assertEquals(texture.width/2, p.pivotX);
+		assertEquals(texture.height/2, p.pivotY);
+	}
+
+	[Test(description="when changing texture, pivot is texture center")]
+	public function whenStepSpriteSheet_pivotUpdates() : void
+	{
+		var texture1 : Texture = createTexture(2, 3);
+		var texture2 : Texture = createTexture(4, 5);
+		var p : StarlingBitmapParticleSpy = new StarlingBitmapParticleSpy(Vector.<Texture>([texture1, texture2]));
+		p.stepSpriteSheet(1);
+		assertEquals(texture2.width/2, p.pivotX);
+		assertEquals(texture2.height/2, p.pivotY);
+	}
+
+	[Test(description="when changing texture (bigger), size is texture size")]
+	public function whenStepSpriteSheet_particleSizeChangesAccordingly1() : void
+	{
+		var texture1 : Texture = createTexture(2, 3);
+		var texture2 : Texture = createTexture(4, 5);
+		var p : StarlingBitmapParticleSpy = new StarlingBitmapParticleSpy(Vector.<Texture>([texture1, texture2]));
+		p.stepSpriteSheet(1);
+		assertEquals(texture2.width, p.width);
+		assertEquals(texture2.height, p.height);
+	}
+
+	[Test(description="when changing texture (smaller), size is texture size")]
+	public function whenStepSpriteSheet_particleSizeChangesAccordingly2() : void
+	{
+		var texture1 : Texture = createTexture(4, 5);
+		var texture2 : Texture = createTexture(2, 3);
+		var p : StarlingBitmapParticleSpy = new StarlingBitmapParticleSpy(Vector.<Texture>([texture1, texture2]));
+		p.stepSpriteSheet(1);
+		assertEquals(texture2.width, p.width);
+		assertEquals(texture2.height, p.height);
+	}
+
+	private function createTexture(width : uint, height : uint) : Texture
+	{
+		var bd : BitmapData = new BitmapData(width, height);
+		var texture : Texture = Texture.fromBitmapData(bd);
+		return texture;
+	}
+
 
 	[After]
 	public function tearDown() : void
