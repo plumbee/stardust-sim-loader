@@ -38,9 +38,10 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 		}
 		var bitmapInit:BitmapParticleInit = bitmapInits[0] as BitmapParticleInit;
 		emitter.addInitializer(
-				createStarlingInitializerWithTextures(
-						getBitmapToTextureHelper().getTexturesFromBitmapParticleInit(bitmapInit)
-				)
+				createStarlingInitializerFromBitmapInitializer(bitmapInit)
+//				createStarlingInitializerWithTextures(
+//						getBitmapToTextureHelper().getTexturesFromBitmapParticleInit(bitmapInit)
+//				)
 		);
 	}
 
@@ -52,6 +53,11 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 	protected function createStarlingInitializerWithTextures(textures : Vector.<Texture>) : Initializer
 	{
 		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [textures]);
+	}
+
+	protected function createStarlingInitializerFromBitmapInitializer(initializer : BitmapParticleInit) : Initializer
+	{
+		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [getBitmapToTextureHelper().getTexturesFromBitmapParticleInit(initializer), initializer.spriteSheetStartAtRandomFrame, initializer.spriteSheetAnimationSpeed]);
 	}
 
 	protected function getBitmapToTextureHelper() : BitmapToTextureHelper
