@@ -39,9 +39,6 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 		var bitmapInit:BitmapParticleInit = bitmapInits[0] as BitmapParticleInit;
 		emitter.addInitializer(
 				createStarlingInitializerFromBitmapInitializer(bitmapInit)
-//				createStarlingInitializerWithTextures(
-//						getBitmapToTextureHelper().getTexturesFromBitmapParticleInit(bitmapInit)
-//				)
 		);
 	}
 

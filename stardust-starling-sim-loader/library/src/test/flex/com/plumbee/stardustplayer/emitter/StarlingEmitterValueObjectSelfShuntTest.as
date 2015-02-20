@@ -28,7 +28,8 @@ public class StarlingEmitterValueObjectSelfShuntTest extends StarlingEmitterValu
 
 	[Mock]
 	public var helper:BitmapToTextureHelper;
-	private const helperReturn:Vector.<Texture> = new Vector.<Texture>();
+
+	private const helperReturn:Vector.<Texture> = new <Texture>[];
 
 	private var starlingInit:PooledStarlingDisplayObjectClass;
 
@@ -53,6 +54,7 @@ public class StarlingEmitterValueObjectSelfShuntTest extends StarlingEmitterValu
 	public function tearDown() : void
 	{
 		FlexUnitStarlingIntegration.destroyStarlingContext();
+		helperReturn.length = 0;
 	}
 
 	[Test(expects="Error")]
@@ -66,6 +68,8 @@ public class StarlingEmitterValueObjectSelfShuntTest extends StarlingEmitterValu
 	[Test]
 	public function addStarlingInitializers_getsTexturesFromHelper() : void
 	{
+		helperReturn.push(Texture.fromColor(1,1));
+
 		var initializer:BitmapParticleInit = new BitmapParticleInit();
 		emitter.addInitializer(initializer);
 		addStarlingInitializers();
@@ -75,6 +79,8 @@ public class StarlingEmitterValueObjectSelfShuntTest extends StarlingEmitterValu
 	[Test]
 	public function addStarlingInitializers_addsInitializerToEmitter() : void
 	{
+		helperReturn.push(Texture.fromColor(1,1));
+
 		var initializer:BitmapParticleInit = new BitmapParticleInit();
 		emitter.addInitializer(initializer);
 		addStarlingInitializers();
