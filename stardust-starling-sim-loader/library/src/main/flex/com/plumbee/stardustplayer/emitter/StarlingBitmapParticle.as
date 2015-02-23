@@ -12,17 +12,12 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 	private var _playingFrameIndex : uint = 0;
 	private var _animationLength : uint = 1;
 
-	public function StarlingBitmapParticle(textures : Vector.<Texture>, randomStartPosition : Boolean = false)
+	public function StarlingBitmapParticle(textures : Vector.<Texture>)
 	{
 		super(textures[0]);
 		_textures = textures;
 		_animationLength = _textures.length;
 		updatePivot();
-
-		if(randomStartPosition)
-		{
-			_playingFrameIndex = Math.random() * _animationLength;
-		}
 	}
 
 	private function updatePivot() : void
@@ -74,6 +69,18 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 	{
 		_animationSpeed = (value > 0) ? value : 1;
 		_animationLength = _textures.length * _animationSpeed;
+	}
+
+	public function set startFromRandomFrame(value : Boolean) : void
+	{
+		if(value)
+		{
+			_playingFrameIndex = Math.random() * _animationLength;
+		}
+		else
+		{
+			_playingFrameIndex = 0;
+		}
 	}
 }
 }
