@@ -51,17 +51,29 @@ public class BitmapToTextureHelperTest
 	}
 
 	[Test]
-	public function typeSpriteSheet_multipleFrames_texturesSizeNFrames() : void
+	public function typeSpriteSheet_multipleFrames_singleLine_texturesSizeNFrames() : void
 	{
 		var frameWidth : uint = 2;
 		var frames : uint = 2;
 		var spritesheetWidth : uint = frameWidth * frames;
 		initializer.bitmapData = new BitmapData(spritesheetWidth, 1);
-		initializer.spriteSheetSliceWidth = frames;
-		initializer.bitmapType = BitmapParticleInit.SINGLE_IMAGE;
-		assertEquals(1, helper.getTexturesFromBitmapParticleInit(initializer).length);
+		initializer.spriteSheetSliceWidth = frameWidth;
+		initializer.spriteSheetSliceHeight = 1;
+		initializer.bitmapType = BitmapParticleInit.SPRITE_SHEET;
+		assertEquals(frames, helper.getTexturesFromBitmapParticleInit(initializer).length);
 	}
 
+	[Test]
+	public function typeSpriteSheet_multipleLines_textureSizeIsRowsMultiplyCols() : void
+	{
+		var nRows : uint = 5;
+		var nCols : uint = 5;
+
+		initializer.spriteSheetSliceHeight = initializer.spriteSheetSliceWidth = 1;
+		initializer.bitmapData = new BitmapData(nCols, nRows);
+		initializer.bitmapType = BitmapParticleInit.SPRITE_SHEET;
+		assertEquals(nRows * nCols, helper.getTexturesFromBitmapParticleInit(initializer).length);
+	}
 
 	[Test(expects="Error")]
 	public function invalidType_throwsError() : void
