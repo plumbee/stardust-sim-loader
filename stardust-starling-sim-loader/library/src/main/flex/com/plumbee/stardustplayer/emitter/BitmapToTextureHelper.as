@@ -19,12 +19,16 @@ public class BitmapToTextureHelper
 		}
 		else if (initializer.bitmapType == BitmapParticleInit.SPRITE_SHEET)
 		{
-			var numTextures : uint = mainTexture.width / initializer.spriteSheetSliceWidth;
+			var rowCount : uint = mainTexture.height / initializer.spriteSheetSliceHeight;
+			var colCount : uint = mainTexture.width / initializer.spriteSheetSliceWidth;
 
-			for (var j : uint = 0; j < numTextures; j++)
+			for(var row : uint = 0; row < rowCount; row++)
 			{
-				var frame : Rectangle = new Rectangle(j * initializer.spriteSheetSliceWidth, 0, initializer.spriteSheetSliceWidth, initializer.spriteSheetSliceHeight);
-				textures.push(Texture.fromTexture(mainTexture, frame));
+				for(var col : uint = 0; col < colCount; col++)
+				{
+					var frame : Rectangle = new Rectangle(col * initializer.spriteSheetSliceWidth, row * initializer.spriteSheetSliceHeight, initializer.spriteSheetSliceWidth, initializer.spriteSheetSliceHeight);
+					textures.push(Texture.fromTexture(mainTexture, frame));
+				}
 			}
 		}
 		else
