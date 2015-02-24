@@ -82,5 +82,20 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 			_playingFrameIndex = 0;
 		}
 	}
+
+	public function get playHeadPosition() : uint
+	{
+		return _playingFrameIndex;
+	}
+
+	public function get animationLength() : uint
+	{
+		return _animationLength;
+	}
+
+	public function get animationSpeed() : uint
+	{
+		return _animationSpeed;
+	}
 }
 }

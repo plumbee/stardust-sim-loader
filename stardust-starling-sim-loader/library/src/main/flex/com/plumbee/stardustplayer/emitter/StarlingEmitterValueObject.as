@@ -5,6 +5,7 @@ import idv.cjcat.stardustextended.common.initializers.Initializer;
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
+import idv.cjcat.stardustextended.twoD.starling.ParticleConfig;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -54,7 +55,9 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 
 	protected function createStarlingInitializerFromBitmapInitializer(initializer : BitmapParticleInit) : Initializer
 	{
-		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [getBitmapToTextureHelper().getTexturesFromBitmapParticleInit(initializer), initializer.spriteSheetStartAtRandomFrame, initializer.spriteSheetAnimationSpeed]);
+		var config : ParticleConfig = new ParticleConfig(initializer.spriteSheetAnimationSpeed, initializer.spriteSheetStartAtRandomFrame);
+
+		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [getBitmapToTextureHelper().getTexturesFromBitmapParticleInit(initializer)], config);
 	}
 
 	protected function getBitmapToTextureHelper() : BitmapToTextureHelper

@@ -215,6 +215,41 @@ public class StarlingBitmapParticleTest
 		assertEquals(texture2.height, p.height);
 	}
 
+	[Test]
+	public function willResetPlayHeadToPositionZeroWhenNotStartingFromRandomFrame() : void
+	{
+		var particle : StarlingBitmapParticle = new StarlingBitmapParticle(new <Texture>[createTexture(1,1)]);
+		particle.startFromRandomFrame = false;
+		assertEquals(0, particle.playHeadPosition);
+	}
+
+	[Test]
+	public function willSetAnimationSpeed() : void
+	{
+		const SPEED : uint = 20;
+		var particle : StarlingBitmapParticle = new StarlingBitmapParticle(new <Texture>[createTexture(1,1)]);
+		particle.animationSpeed = SPEED;
+		assertEquals(SPEED, particle.animationSpeed);
+	}
+
+	[Test]
+	public function willClampAnimationSpeedToOneIfZero() : void
+	{
+		var particle : StarlingBitmapParticle = new StarlingBitmapParticle(new <Texture>[createTexture(1,1)]);
+		particle.animationSpeed = 0;
+		assertEquals(1, particle.animationSpeed);
+	}
+
+	[Test]
+	public function willUpdateAnimationLengthWhenSettingSpeed() : void
+	{
+		const SPEED : uint = 20;
+		const TEXTURES : Vector.<Texture> = new <Texture>[createTexture(1,1)];
+		var particle : StarlingBitmapParticle = new StarlingBitmapParticle(TEXTURES);
+		particle.animationSpeed = SPEED;
+		assertEquals(SPEED * TEXTURES.length, particle.animationLength);
+	}
+
 	private function createTexture(width : uint, height : uint) : Texture
 	{
 		var bd : BitmapData = new BitmapData(width, height);
