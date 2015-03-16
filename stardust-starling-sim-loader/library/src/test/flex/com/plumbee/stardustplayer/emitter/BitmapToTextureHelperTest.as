@@ -9,11 +9,22 @@ import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
 
 import org.flexunit.asserts.assertEquals;
 import org.flexunit.async.Async;
+import org.flexunit.rules.IMethodRule;
+import org.mockito.integrations.flexunit4.MockitoRule;
+import org.mockito.integrations.given;
+
+import starling.textures.Texture;
 
 public class BitmapToTextureHelperTest
 {
 	private var helper : BitmapToTextureHelper;
 	private var initializer : BitmapParticleInit;
+
+	[Rule]
+	public var rule: IMethodRule = new MockitoRule();
+
+	[Mock]
+	public var texture: Texture;
 
 	[Before(async, timeout=1000)]
 	public function setUp() : void
@@ -53,26 +64,29 @@ public class BitmapToTextureHelperTest
 	[Test]
 	public function typeSpriteSheet_multipleFrames_singleLine_texturesSizeNFrames() : void
 	{
-		var frameWidth : uint = 2;
-		var frames : uint = 2;
-		var spritesheetWidth : uint = frameWidth * frames;
-		initializer.bitmapData = new BitmapData(spritesheetWidth, 1);
+		const frameWidth : uint = 60;
+		const frameHeight: uint = 50
+		const frames : uint = 2;
+		const spritesheetWidth : uint = frameWidth * frames;
+		const spritesheetHeight: uint = frameHeight;
+		setupTexture(spritesheetHeight, spritesheetWidth);
 		initializer.spriteSheetSliceWidth = frameWidth;
-		initializer.spriteSheetSliceHeight = 1;
+		initializer.spriteSheetSliceHeight = spritesheetHeight;
 		initializer.bitmapType = BitmapParticleInit.SPRITE_SHEET;
-		assertEquals(frames, helper.getTexturesFromBitmapParticleInit(initializer).length);
+		assertEquals(frames, helper.getTexturesFromBitmapParticleInit(initializer, texture).length);
 	}
 
 	[Test]
 	public function typeSpriteSheet_multipleLines_textureSizeIsRowsMultiplyCols() : void
 	{
-		var nRows : uint = 5;
-		var nCols : uint = 5;
-
-		initializer.spriteSheetSliceHeight = initializer.spriteSheetSliceWidth = 1;
+		const nRows : uint = 5;
+		const nCols : uint = 5;
+		const sliceSideLength: uint = 10
+		setupTexture(nRows*sliceSideLength,nCols*sliceSideLength);
+		initializer.spriteSheetSliceHeight = initializer.spriteSheetSliceWidth = sliceSideLength;
 		initializer.bitmapData = new BitmapData(nCols, nRows);
 		initializer.bitmapType = BitmapParticleInit.SPRITE_SHEET;
-		assertEquals(nRows * nCols, helper.getTexturesFromBitmapParticleInit(initializer).length);
+		assertEquals(nRows * nCols, helper.getTexturesFromBitmapParticleInit(initializer, texture).length);
 	}
 
 	[Test(expects="Error")]
@@ -87,6 +101,12 @@ public class BitmapToTextureHelperTest
 	public function tearDown() : void
 	{
 		FlexUnitStarlingIntegration.destroyStarlingContext();
+	}
+
+	private function setupTexture(height: int, width: int): void
+	{
+		given(texture.height).willReturn(height);
+		given(texture.width).willReturn(width);
 	}
 }
 }

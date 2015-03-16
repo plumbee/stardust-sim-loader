@@ -8,34 +8,47 @@ import starling.textures.Texture;
 
 public class BitmapToTextureHelper
 {
-	public function getTexturesFromBitmapParticleInit(initializer : BitmapParticleInit) : Vector.<Texture>
+	public function getTexturesFromBitmapParticleInit(initializer : BitmapParticleInit, textureAtlas: Texture = null) : Vector.<Texture>
 	{
 		var textures : Vector.<Texture> = new Vector.<Texture>();
-		var mainTexture : Texture = Texture.fromBitmapData(initializer.bitmapData);
+		var mainTexture : Texture;
 
 		if (initializer.bitmapType == BitmapParticleInit.SINGLE_IMAGE)
 		{
+			mainTexture = Texture.fromBitmapData(initializer.bitmapData);
 			textures.push(mainTexture);
 		}
 		else if (initializer.bitmapType == BitmapParticleInit.SPRITE_SHEET)
 		{
-			var rowCount : uint = mainTexture.height / initializer.spriteSheetSliceHeight;
-			var colCount : uint = mainTexture.width / initializer.spriteSheetSliceWidth;
-
-			for(var row : uint = 0; row < rowCount; row++)
+			if(textureAtlas == null)
 			{
-				for(var col : uint = 0; col < colCount; col++)
-				{
-					var frame : Rectangle = new Rectangle(col * initializer.spriteSheetSliceWidth, row * initializer.spriteSheetSliceHeight, initializer.spriteSheetSliceWidth, initializer.spriteSheetSliceHeight);
-					textures.push(Texture.fromTexture(mainTexture, frame));
-				}
+				throw new Error("no atlas passed to spritesheet-based particle")
 			}
+			mainTexture = textureAtlas;
+			textures = getTexturesFromSpriteSheetAndBitmapParticleInit(initializer, mainTexture);
 		}
 		else
 		{
 			throw(new Error("invalid bitmapType"));
 		}
 		return textures;
+	}
+
+	public function getTexturesFromSpriteSheetAndBitmapParticleInit(initializer: BitmapParticleInit, atlasTexture: Texture): Vector.<Texture>
+	{
+		var result: Vector.<Texture> = Vector.<Texture>([]);
+		var rowCount : uint = atlasTexture.height / initializer.spriteSheetSliceHeight;
+		var colCount : uint = atlasTexture.width / initializer.spriteSheetSliceWidth;
+
+		for(var row : uint = 0; row < rowCount; row++)
+		{
+			for(var col : uint = 0; col < colCount; col++)
+			{
+				var frame : Rectangle = new Rectangle(col * initializer.spriteSheetSliceWidth, row * initializer.spriteSheetSliceHeight, initializer.spriteSheetSliceWidth, initializer.spriteSheetSliceHeight);
+				result.push(Texture.fromTexture(atlasTexture, frame));
+			}
+		}
+		return result;
 	}
 }
 }
