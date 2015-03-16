@@ -44,7 +44,7 @@ public class BitmapToTextureHelperTest
 	}
 
 	[Test(expects="Error")]
-	public function typeSingleImage_nullBitmap_throwsError() : void
+	public function typeSingleImage_nullBitmap_andOverrideTexture_throwsError() : void
 	{
 		initializer.bitmapData = null;
 		initializer.bitmapType = BitmapParticleInit.SINGLE_IMAGE;
@@ -87,6 +87,14 @@ public class BitmapToTextureHelperTest
 		initializer.bitmapData = new BitmapData(nCols, nRows);
 		initializer.bitmapType = BitmapParticleInit.SPRITE_SHEET;
 		assertEquals(nRows * nCols, helper.getTexturesFromBitmapParticleInit(initializer, texture).length);
+	}
+
+	[Test(expects="Error")]
+	public function typeSpriteSheet_initializerBitmapDataNull_andNoneProvidedInOverride_throwsError(): void
+	{
+		initializer.bitmapData = null;
+		initializer.bitmapType = BitmapParticleInit.SPRITE_SHEET;
+		helper.getTexturesFromBitmapParticleInit(initializer);
 	}
 
 	[Test(expects="Error")]
