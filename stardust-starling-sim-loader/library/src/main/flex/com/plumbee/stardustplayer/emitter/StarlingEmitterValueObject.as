@@ -2,9 +2,11 @@ package com.plumbee.stardustplayer.emitter
 {
 
 import idv.cjcat.stardustextended.common.initializers.Initializer;
+import idv.cjcat.stardustextended.common.initializers.Initializer;
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
+import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.ParticleConfig;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
@@ -24,16 +26,19 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 
 	public function prepareForStarlingWithAtlas(textureAtlas : Texture) : void
 	{
+		verifyNotAlreadyExistingTexture();
 		addStarlingInitializersGivenAtlas(textureAtlas);
 	}
 
 	public function prepareForStarlingWithTextureList(textureList : Vector.<Texture>) : void
 	{
+		verifyNotAlreadyExistingTexture();
 		addStarlingInitializersGivenTextureList(textureList);
 	}
 
 	public function prepareForStarlingWithSingleTexture(texture : Texture) : void
 	{
+		verifyNotAlreadyExistingTexture();
 		addStarlingInitializerGivenSingleTexture(texture);
 	}
 
@@ -95,6 +100,15 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 		var config : ParticleConfig = new ParticleConfig(initializer.spriteSheetAnimationSpeed, initializer.spriteSheetStartAtRandomFrame);
 
 		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [textureList], config);
+	}
+
+	private function verifyNotAlreadyExistingTexture(): void
+	{
+		const inits: Vector.<Initializer> = emitter.getInitializersByClass(PooledStarlingDisplayObjectClass);
+		if(inits.length > 0 )
+		{
+			throw new Error("cannot register multiple texture sets to single emitter");
+		}
 	}
 
 	private function getValidBitmapInit(): BitmapParticleInit

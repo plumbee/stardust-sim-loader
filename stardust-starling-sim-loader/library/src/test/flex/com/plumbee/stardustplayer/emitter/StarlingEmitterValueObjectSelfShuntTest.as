@@ -78,6 +78,30 @@ public class StarlingEmitterValueObjectSelfShuntTest
 		vo.prepareForStarlingWithAtlas(texture);
 	}
 
+	[Test(expects="Error")]
+	public function prepareForStarlingWithSingleTexture_AlreadyExistingDisplayObjectInitializer_throwsError() : void
+	{
+		setupBitmapParticleInit();
+		setupAlreadyEmitterThatAlreadyHasDisplayObjectInitializerRegistered();
+		vo.prepareForStarlingWithSingleTexture(texture);
+	}
+
+	[Test(expects="Error")]
+	public function prepareForStarlingWithTextureList_AlreadyExistingDisplayObjectInitializer_throwsError() : void
+	{
+		setupBitmapParticleInit();
+		setupAlreadyEmitterThatAlreadyHasDisplayObjectInitializerRegistered();
+		vo.prepareForStarlingWithTextureList(Vector.<Texture>([texture,texture]));
+	}
+
+	[Test(expects="Error")]
+	public function prepareForStarlingWithAtlas_AlreadyExistingDisplayObjectInitializer_throwsError() : void
+	{
+		setupBitmapParticleInit();
+		setupAlreadyEmitterThatAlreadyHasDisplayObjectInitializerRegistered();
+		vo.prepareForStarlingWithAtlas(texture);
+	}
+
 	[Test]
 	public function prepareForStarlingWithAtlas_getsTexturesFromHelper() : void
 	{
@@ -140,6 +164,17 @@ public class StarlingEmitterValueObjectSelfShuntTest
 	{
 		given(helper.getTexturesFromBitmapParticleInit(any())).willThrow(new Error("this method is not to use the helper"));
 		given(helper.getTexturesFromSpriteSheetAndBitmapParticleInit(any(),any())).willThrow(new Error("this method is not to use the helper"));
+	}
+
+	private function setupBitmapParticleInit(): void
+	{
+		var initializer:BitmapParticleInit = new BitmapParticleInit();
+		emitter.addInitializer(initializer);
+	}
+
+	private function setupAlreadyEmitterThatAlreadyHasDisplayObjectInitializerRegistered(): void
+	{
+		emitter.addInitializer(new PooledStarlingDisplayObjectClass());
 	}
 
 	private function setupMultipleBitmapParticleInit(): void

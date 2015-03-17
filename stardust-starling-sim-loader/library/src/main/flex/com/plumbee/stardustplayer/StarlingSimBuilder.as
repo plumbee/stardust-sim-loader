@@ -15,9 +15,9 @@ public class StarlingSimBuilder
 
 	/* CURRENT USAGE:
 	 var projectVO : ProjectValueObject = simBuilder.withSDE(assetInstance)
-	 .withTextures("coin", createAtlas(Texture0, AtlasTexture0))
-	 .withTextures("coin", createAtlas(Texture1, AtlasTexture1))
-	 .withTextures("coin", createAtlas(Texture2, AtlasTexture2))
+	 .withTextureAtlas(myTexture)
+	 .withSingleTexture(myTexture)
+	 .withTextureList(myVectorOfTextures)
 	 .build();
 
 	 The textures must be in the order they were introduced in the XML.
