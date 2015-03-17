@@ -34,15 +34,6 @@ public class StarlingStardustExample extends Sprite
 	[Embed(source="emitterImage_2.png")]
 	public static const Texture2 : Class;
 
-	[Embed(source="emitterImage_0.xml", mimeType="application/octet-stream")]
-	public static const AtlasTexture0 : Class;
-
-	[Embed(source="emitterImage_1.xml", mimeType="application/octet-stream")]
-	public static const AtlasTexture1 : Class;
-
-	[Embed(source="emitterImage_2.xml", mimeType="application/octet-stream")]
-	public static const AtlasTexture2 : Class;
-
 	public function StarlingStardustExample()
 	{
 		x = 190;
@@ -72,11 +63,10 @@ public class StarlingStardustExample extends Sprite
 		var simBuilder : StarlingSimBuilder = new StarlingSimBuilder();
 
 		return simBuilder.withSDE(assetInstance)
-				.withTextures("coin", createAtlas(Texture0, AtlasTexture0))
-				.withTextures("coin", createAtlas(Texture1, AtlasTexture1))
-				.withTextures("coin", createAtlas(Texture2, AtlasTexture2))
+				.withTextureAtlas(Texture.fromBitmap(new Texture0()))
+				.withTextureAtlas(Texture.fromBitmap(new Texture1()))
+				.withSingleTexture(Texture.fromBitmap(new Texture2()))
 				.build();
-
 	}
 
 	private function onEnterFrame(event : EnterFrameEvent) : void

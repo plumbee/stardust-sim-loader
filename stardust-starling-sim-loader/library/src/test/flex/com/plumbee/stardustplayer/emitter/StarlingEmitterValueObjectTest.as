@@ -19,6 +19,7 @@ import starling.display.DisplayObjectContainer;
 import starling.display.Sprite;
 import starling.textures.Texture;
 import starling.textures.Texture;
+import starling.utils.Color;
 
 use namespace sd;
 
@@ -36,28 +37,22 @@ public class StarlingEmitterValueObjectTest
 	}
 
 	[Test]
-	public function updatecanvas_setsEmitterParticleHandlerContainer() : void
+	public function updateCanvas_setsEmitterParticleHandlerTo_suppliedContainer() : void
 	{
 		var targetCanvas : DisplayObjectContainer = new Sprite();
 		var handler : StarlingHandler = new StarlingHandler();
 		var emitter : Emitter2D = new Emitter2D(null, handler);
 		var vo : StarlingEmitterValueObject = new StarlingEmitterValueObject(0, emitter);
 		vo.updateHandlerCanvas(targetCanvas);
-		assertThat(handler.container, strictlyEqualTo(targetCanvas));
+		assertThat((emitter.particleHandler as StarlingHandler).container, strictlyEqualTo(targetCanvas));
 	}
 
 	[Test]
-	public function prepareForStarling_addsStarlingHandler() : void
+	public function construction_enforcesStarlingHandler() : void
 	{
 		var emitter : Emitter2D = new Emitter2D();
 		var vo : StarlingEmitterValueObject = new StarlingEmitterValueObject(0, emitter);
-		vo.prepareForStarling(createTextures());
 		assertThat(emitter.particleHandler, isA(StarlingHandler));
-	}
-
-	private function createTextures() : Vector.<Texture>
-	{
-		return Vector.<Texture>([Texture.fromColor(1,1,0xFF00FF)]);
 	}
 
 	[After]

@@ -21,7 +21,7 @@ import org.mockito.integrations.verify;
 
 import starling.textures.Texture;
 
-public class StarlingEmitterValueObjectSelfShuntTest extends StarlingEmitterValueObject
+public class StarlingEmitterValueObjectSelfShuntTest
 {
 	[Rule]
 	public var rule:IMethodRule = new MockitoRule();
@@ -29,25 +29,25 @@ public class StarlingEmitterValueObjectSelfShuntTest extends StarlingEmitterValu
 	[Mock]
 	public var helper:BitmapToTextureHelper;
 
+	[Mock]
+	public var texture: Texture;
+
 	private const helperReturn:Vector.<Texture> = new <Texture>[];
+	private const testId: uint = 1;
 
-	private var starlingInit:PooledStarlingDisplayObjectClass;
+	private var emitter: Emitter2D;
 
-	public function StarlingEmitterValueObjectSelfShuntTest()
-	{
-		super(0, null);
-	}
+
+	private var vo: StarlingEmitterValueObject;
 
 	[Before(async, timeout=1000)]
 	public function setUp() : void
 	{
 		Async.proceedOnEvent(this, FlexUnitStarlingIntegration.nativeStage, FlexUnitStarlingIntegrationEvent.CONTEXT_CREATED, 15500);
 		FlexUnitStarlingIntegration.createStarlingContext();
-
-		_emitter = new Emitter2D();
-		given(helper.getTexturesFromBitmapParticleInit(any())).willReturn(helperReturn);
-
-		starlingInit = new PooledStarlingDisplayObjectClass(Object,[]);
+		emitter = new Emitter2D();
+		setupTexture(100,100);
+		vo = new StarlingEmitterValueObjectShunt(testId, emitter, helper);
 	}
 
 	[After]
@@ -58,55 +58,115 @@ public class StarlingEmitterValueObjectSelfShuntTest extends StarlingEmitterValu
 	}
 
 	[Test(expects="Error")]
-	public function addStarlingInitializers_failsWithMultipleBitmapParticleInit() : void
+	public function prepareForStarlingWithSingleTexture_failsWithMultipleBitmapParticleInit() : void
 	{
-		emitter.addInitializer(new BitmapParticleInit());
-		emitter.addInitializer(new BitmapParticleInit());
-		addStarlingInitializers();
+		setupMultipleBitmapParticleInit();
+		vo.prepareForStarlingWithSingleTexture(texture);
+	}
+
+	[Test(expects="Error")]
+	public function prepareForStarlingWithTextureList_failsWithMultipleBitmapParticleInit() : void
+	{
+		setupMultipleBitmapParticleInit();
+		vo.prepareForStarlingWithTextureList(Vector.<Texture>([texture, texture]));
+	}
+
+	[Test(expects="Error")]
+	public function prepareForStarlingWithTextureAtlas_failsWithMultipleBitmapParticleInit() : void
+	{
+		setupMultipleBitmapParticleInit();
+		vo.prepareForStarlingWithAtlas(texture);
 	}
 
 	[Test]
-	public function addStarlingInitializers_getsTexturesFromHelper() : void
+	public function prepareForStarlingWithAtlas_getsTexturesFromHelper() : void
 	{
-		helperReturn.push(Texture.fromColor(1,1));
-
+		setupHelper(3);
 		var initializer:BitmapParticleInit = new BitmapParticleInit();
 		emitter.addInitializer(initializer);
-		addStarlingInitializers();
-		verify().that(helper.getTexturesFromBitmapParticleInit(initializer));
+		vo.prepareForStarlingWithAtlas(texture);
+		verify().that(helper.getTexturesFromSpriteSheetAndBitmapParticleInit(initializer, texture));
 	}
 
 	[Test]
-	public function addStarlingInitializers_addsInitializerToEmitter() : void
+	public function prepareForStarlingWithAtlas_addsPooledStarlingDisplayObjectInitializerToEmitter() : void
 	{
-		helperReturn.push(Texture.fromColor(1,1));
-
+		setupHelper(3);
 		var initializer:BitmapParticleInit = new BitmapParticleInit();
 		emitter.addInitializer(initializer);
-		addStarlingInitializers();
+		vo.prepareForStarlingWithAtlas(texture);
 		assertEquals(1,emitter.getInitializersByClass(PooledStarlingDisplayObjectClass).length);
 	}
 
 	[Test]
-	public function prepareForStarling_addsInitializerToEmitter() : void
+	public function prepareForStarlingWithTextureList_addsPooledStarlingDisplayObjectInitializerToEmitter_doesNotGetTexturesFromHelper() : void
 	{
-		prepareForStarling(createTextures());
+		setupHelperToFailTestIfUsed();
+		var initializer:BitmapParticleInit = new BitmapParticleInit();
+		emitter.addInitializer(initializer);
+		vo.prepareForStarlingWithTextureList(Vector.<Texture>([texture, texture]));
 		assertEquals(1,emitter.getInitializersByClass(PooledStarlingDisplayObjectClass).length);
 	}
 
-	private function createTextures() : Vector.<Texture>
+	[Test]
+	public function prepareForStarlingWithSingleTexture_addsPooledStarlingDisplayObjectInitializerToEmitter_doesNotGetTexturesFromHelper() : void
 	{
-		return Vector.<Texture>([Texture.fromColor(1,1,0xFF00FF)]);
+		setupHelperToFailTestIfUsed();
+		var initializer:BitmapParticleInit = new BitmapParticleInit();
+		emitter.addInitializer(initializer);
+		vo.prepareForStarlingWithSingleTexture(texture);
+		assertEquals(1,emitter.getInitializersByClass(PooledStarlingDisplayObjectClass).length);
+	}
+
+	private function setupTexture(width: int, height: int): void
+	{
+		given(texture.width).willReturn(width);
+		given(texture.height).willReturn(height);
+	}
+
+	private function setupHelper(numFrames: uint = 1): void
+	{
+		given(helper.getTexturesFromBitmapParticleInit(any())).willReturn(helperReturn);
+		given(helper.getTexturesFromSpriteSheetAndBitmapParticleInit(any(),any())).willReturn(helperReturn);
+
+
+		for(var i: int = 0; i<numFrames; i++)
+		{
+			helperReturn.push(texture);
+		}
+	}
+
+	private function setupHelperToFailTestIfUsed(): void
+	{
+		given(helper.getTexturesFromBitmapParticleInit(any())).willThrow(new Error("this method is not to use the helper"));
+		given(helper.getTexturesFromSpriteSheetAndBitmapParticleInit(any(),any())).willThrow(new Error("this method is not to use the helper"));
+	}
+
+	private function setupMultipleBitmapParticleInit(): void
+	{
+		emitter.addInitializer(new BitmapParticleInit());
+		emitter.addInitializer(new BitmapParticleInit());
+	}
+
+}
+}
+
+import com.plumbee.stardustplayer.emitter.BitmapToTextureHelper;
+import com.plumbee.stardustplayer.emitter.StarlingEmitterValueObject;
+import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
+
+internal class StarlingEmitterValueObjectShunt extends StarlingEmitterValueObject
+{
+	private var _mockedHelper: BitmapToTextureHelper;
+
+	public function StarlingEmitterValueObjectShunt(emitterId : uint, emitter : Emitter2D, mockedHelper: BitmapToTextureHelper)
+	{
+		_mockedHelper = mockedHelper;
+		super(emitterId, emitter);
 	}
 
 	override protected function getBitmapToTextureHelper() : BitmapToTextureHelper
 	{
-		return helper;
+		return _mockedHelper;
 	}
-
-	override protected function createStarlingInitializerWithTextures(textures : Vector.<Texture>) : Initializer
-	{
-		return starlingInit;
-	}
-}
 }

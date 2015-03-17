@@ -6,7 +6,7 @@ import com.plumbee.stardustplayer.project.ProjectValueObject;
 
 import flash.utils.ByteArray;
 
-import starling.textures.TextureAtlas;
+import starling.textures.Texture;
 
 public class StarlingSimBuilder
 {
@@ -57,13 +57,48 @@ public class StarlingSimBuilder
 		_project.emitters[emitterID] = emitterVO;
 	}
 
-	public function withTextures(prefix : String, textureAtlas : TextureAtlas) : StarlingSimBuilder
+	public function withSingleTexture(texture: Texture): StarlingSimBuilder
+	{
+		if(_project.emitters[texturesCount])
+		{
+			var emitterValueObject : StarlingEmitterValueObject = _project.emitters[texturesCount] as StarlingEmitterValueObject;
+			emitterValueObject.prepareForStarlingWithSingleTexture(texture);
+
+			texturesCount++;
+		}
+		else
+		{
+			throw new Error("There is no emitter with emitterID: " + texturesCount);
+		}
+
+		return this;
+	}
+
+	public function withTextureAtlas(textureAtlas : Texture) : StarlingSimBuilder
 	{
 
 		if (_project.emitters[texturesCount])
 		{
 			var emitterValueObject : StarlingEmitterValueObject = _project.emitters[texturesCount] as StarlingEmitterValueObject;
-			emitterValueObject.prepareForStarling(textureAtlas.getTextures(prefix));
+			emitterValueObject.prepareForStarlingWithAtlas(textureAtlas);
+
+			texturesCount++;
+		}
+		else
+		{
+			throw new Error("There is no emitter with emitterID: " + texturesCount);
+		}
+
+		return this;
+	}
+
+	public function withTextureList(textures: Vector.<Texture>): StarlingSimBuilder
+	{
+		if (_project.emitters[texturesCount])
+		{
+			var emitterValueObject : StarlingEmitterValueObject = _project.emitters[texturesCount] as StarlingEmitterValueObject;
+
+			emitterValueObject.prepareForStarlingWithTextureList(textures);
 
 			texturesCount++;
 		}

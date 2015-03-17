@@ -19,28 +19,58 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 	public function StarlingEmitterValueObject(emitterId : uint, emitter : Emitter2D)
 	{
 		super(emitterId, emitter);
+		emitter.particleHandler = new StarlingHandler();
 	}
 
-	public function prepareForStarling(textures : Vector.<Texture>) : void
+	public function prepareForStarlingWithAtlas(textureAtlas : Texture) : void
 	{
-		emitter.particleHandler = new StarlingHandler();
-		emitter.addInitializer(
-				createStarlingInitializerWithTextures(textures)
-		);
+		addStarlingInitializersGivenAtlas(textureAtlas);
 	}
 
-	public function addStarlingInitializers() : void
+	public function prepareForStarlingWithTextureList(textureList : Vector.<Texture>) : void
 	{
-		emitter.particleHandler = new StarlingHandler();
-		var bitmapInits : Vector.<Initializer> = emitter.getInitializersByClass(BitmapParticleInit);
-		if (bitmapInits.length > 1)
+		addStarlingInitializersGivenTextureList(textureList);
+	}
+
+	public function prepareForStarlingWithSingleTexture(texture : Texture) : void
+	{
+		addStarlingInitializerGivenSingleTexture(texture);
+	}
+
+	private function addStarlingInitializersGivenAtlas(textureAtlas: Texture) : void
+	{
+		const bitmapInit: BitmapParticleInit = getValidBitmapInit();
+		if(bitmapInit)
 		{
-			throw(new Error("can't have multiple BitmapParticleInit"));
+			emitter.addInitializer
+			(
+					createStarlingInitializerFromBitmapInitializerWithTextureAtlas(bitmapInit,textureAtlas)
+			);
 		}
-		var bitmapInit:BitmapParticleInit = bitmapInits[0] as BitmapParticleInit;
-		emitter.addInitializer(
-				createStarlingInitializerFromBitmapInitializer(bitmapInit)
-		);
+	}
+
+	private function addStarlingInitializersGivenTextureList(textureList: Vector.<Texture>): void
+	{
+		const bitmapInit: BitmapParticleInit = getValidBitmapInit();
+		if(bitmapInit)
+		{
+			emitter.addInitializer
+			(
+					createStarlingInitializerFromBitmapInitializerWithTextureList(bitmapInit,textureList)
+			);
+		}
+	}
+
+	private function addStarlingInitializerGivenSingleTexture(texture: Texture): void
+	{
+		const bitmapInit: BitmapParticleInit = getValidBitmapInit();
+		if(bitmapInit)
+		{
+			emitter.addInitializer
+			(
+					createStarlingInitializerWithSingleTexture(texture)
+			);
+		}
 	}
 
 	public function updateHandlerCanvas(canvas : DisplayObjectContainer) : void
@@ -48,16 +78,37 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 		(emitter.particleHandler as StarlingHandler).container = canvas;
 	}
 
-	protected function createStarlingInitializerWithTextures(textures : Vector.<Texture>) : Initializer
+	private function createStarlingInitializerWithSingleTexture(texture : Texture) : Initializer
 	{
-		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [textures]);
+		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [Vector.<Texture>([texture])] );
 	}
 
-	protected function createStarlingInitializerFromBitmapInitializer(initializer : BitmapParticleInit) : Initializer
+	private function createStarlingInitializerFromBitmapInitializerWithTextureAtlas(initializer : BitmapParticleInit, textureAtlas: Texture) : Initializer
 	{
 		var config : ParticleConfig = new ParticleConfig(initializer.spriteSheetAnimationSpeed, initializer.spriteSheetStartAtRandomFrame);
 
-		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [getBitmapToTextureHelper().getTexturesFromBitmapParticleInit(initializer)], config);
+		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [getBitmapToTextureHelper().getTexturesFromSpriteSheetAndBitmapParticleInit(initializer, textureAtlas)], config);
+	}
+
+	private function createStarlingInitializerFromBitmapInitializerWithTextureList(initializer : BitmapParticleInit, textureList: Vector.<Texture>) : Initializer
+	{
+		var config : ParticleConfig = new ParticleConfig(initializer.spriteSheetAnimationSpeed, initializer.spriteSheetStartAtRandomFrame);
+
+		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [textureList], config);
+	}
+
+	private function getValidBitmapInit(): BitmapParticleInit
+	{
+		var bitmapInits : Vector.<Initializer> = emitter.getInitializersByClass(BitmapParticleInit);
+		if(bitmapInits.length < 2 && bitmapInits.length > 0)
+		{
+			return bitmapInits[0] as BitmapParticleInit;
+		}
+		else if(bitmapInits.length >= 2)
+		{
+			throw(new Error("can't have multiple BitmapParticleInit"));
+		}
+		else return null;
 	}
 
 	protected function getBitmapToTextureHelper() : BitmapToTextureHelper

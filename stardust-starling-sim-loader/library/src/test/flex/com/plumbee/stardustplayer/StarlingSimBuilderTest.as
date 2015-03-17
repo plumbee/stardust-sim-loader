@@ -21,7 +21,6 @@ use namespace sd;
 public class StarlingSimBuilderTest
 {
 	private static const SDE_NUMBER_OF_TEXTURES : int = 3;
-	private static const TEXTURE_PREFIX : String = "coin";
 
 	[Embed(source="../../../../../test/resources/emitter.xml", mimeType="application/octet-stream")]
 	private static var XmlSource : Class;
@@ -30,8 +29,6 @@ public class StarlingSimBuilderTest
 	[Embed(source="../../../../../test/resources/emitter.png")]
 	public static const Texture0 : Class;
 
-	[Embed(source="../../../../../test/resources/textureAtlas.xml", mimeType="application/octet-stream")]
-	public static const AtlasTexture0 : Class;
 	//The test sde contains 3 textures.
 	[Embed(source="../../../../../test/resources/coins_particles.sde", mimeType='application/octet-stream')]
 	private static var Asset : Class;
@@ -63,11 +60,11 @@ public class StarlingSimBuilderTest
 
 
 	[Test]
-	public function canBuildWithEmitterAndTexture() : void
+	public function canBuildWithEmitterAndTextureAtlas() : void
 	{
 		var projectValueObject : ProjectValueObject = new StarlingSimBuilder()
 				.withEmitter(0, xmlInstance)
-				.withTextures(TEXTURE_PREFIX, createAtlas(Texture0, AtlasTexture0))
+				.withTextureAtlas(Texture.fromBitmap(new Texture0()))
 				.build();
 
 		assertEquals(projectValueObject.numberOfEmitters, 1);
@@ -77,15 +74,31 @@ public class StarlingSimBuilderTest
 		assertThatContainsStarlingDisplayObjectClassInitializer(starlingEmitterVO);
 	}
 
+	[Test]
+	public function canBuildWithEmitterAndSingleTexture(): void
+	{
+		var projectValueObject: ProjectValueObject = new StarlingSimBuilder()
+		.withEmitter(0, xmlInstance)
+		.withSingleTexture(Texture.fromBitmap(new Texture0()))
+		.build();
+
+		assertEquals(projectValueObject.numberOfEmitters, 1);
+
+		var starlingEmitterVO : StarlingEmitterValueObject = projectValueObject.emitters[0] as StarlingEmitterValueObject;
+
+		assertThatContainsStarlingDisplayObjectClassInitializer(starlingEmitterVO);
+	}
 
 	[Test]
-	public function canBuidWithSDEandTextures() : void
+	public function canBuildWithSDEandVariousTextureTypeInitializers() : void
 	{
+		const texture: Texture = Texture.fromBitmap(new Texture0());
+
 		var projectValueObject : ProjectValueObject = new StarlingSimBuilder()
 				.withSDE(sdeInstance)
-				.withTextures(TEXTURE_PREFIX, createAtlas(Texture0, AtlasTexture0))
-				.withTextures(TEXTURE_PREFIX, createAtlas(Texture0, AtlasTexture0))
-				.withTextures(TEXTURE_PREFIX, createAtlas(Texture0, AtlasTexture0))
+				.withTextureAtlas(texture)
+				.withTextureList(Vector.<Texture>([texture, texture]))
+				.withSingleTexture(texture)
 				.build();
 
 		assertEquals(projectValueObject.numberOfEmitters, SDE_NUMBER_OF_TEXTURES);
@@ -93,7 +106,6 @@ public class StarlingSimBuilderTest
 		assertThatContainsStarlingDisplayObjectClassInitializer(projectValueObject.emitters[0] as StarlingEmitterValueObject);
 		assertThatContainsStarlingDisplayObjectClassInitializer(projectValueObject.emitters[1] as StarlingEmitterValueObject);
 		assertThatContainsStarlingDisplayObjectClassInitializer(projectValueObject.emitters[2] as StarlingEmitterValueObject);
-
 	}
 
 	[Test(expects="Error")]
