@@ -2,11 +2,9 @@ package com.plumbee.stardustplayer.emitter
 {
 
 import idv.cjcat.stardustextended.common.initializers.Initializer;
-import idv.cjcat.stardustextended.common.initializers.Initializer;
 import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
-import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.ParticleConfig;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
@@ -22,6 +20,16 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 	{
 		super(emitterId, emitter);
 		emitter.particleHandler = new StarlingHandler();
+		prepareForStarlingDefault();
+	}
+
+	private function prepareForStarlingDefault(): void
+	{
+		var bitmapInit = getValidBitmapInit();
+		if(bitmapInit && bitmapInit.bitmapData)
+		{
+			createStarlingInitializerFromBitmapInitializerOnly(bitmapInit);
+		}
 	}
 
 	public function prepareForStarlingWithAtlas(textureAtlas : Texture) : void
@@ -100,6 +108,19 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 		var config : ParticleConfig = new ParticleConfig(initializer.spriteSheetAnimationSpeed, initializer.spriteSheetStartAtRandomFrame);
 
 		return new PooledStarlingDisplayObjectClass(StarlingBitmapParticle, [textureList], config);
+	}
+
+	private function createStarlingInitializerFromBitmapInitializerOnly(init: BitmapParticleInit): void
+	{
+		switch(init.bitmapType)
+		{
+			case BitmapParticleInit.SINGLE_IMAGE:
+				addStarlingInitializerGivenSingleTexture(Texture.fromBitmapData(init.bitmapData));
+				break;
+
+			case BitmapParticleInit.SPRITE_SHEET:
+				addStarlingInitializersGivenAtlas(Texture.fromBitmapData(init.bitmapData));
+		}
 	}
 
 	private function verifyNotAlreadyExistingTexture(): void
