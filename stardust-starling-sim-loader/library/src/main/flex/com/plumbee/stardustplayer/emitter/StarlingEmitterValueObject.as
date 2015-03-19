@@ -19,7 +19,7 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 	public function StarlingEmitterValueObject(emitterId : uint, emitter : Emitter2D)
 	{
 		super(emitterId, emitter);
-		emitter.particleHandler = new StarlingHandler();
+		_emitter.particleHandler = new StarlingHandler();
 		prepareForStarlingDefault();
 	}
 
@@ -134,7 +134,7 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 
 	private function getValidBitmapInit(): BitmapParticleInit
 	{
-		var bitmapInits : Vector.<Initializer> = emitter.getInitializersByClass(BitmapParticleInit);
+		var bitmapInits : Vector.<Initializer> = _emitter.getInitializersByClass(BitmapParticleInit);
 		if(bitmapInits.length < 2 && bitmapInits.length > 0)
 		{
 			return bitmapInits[0] as BitmapParticleInit;
