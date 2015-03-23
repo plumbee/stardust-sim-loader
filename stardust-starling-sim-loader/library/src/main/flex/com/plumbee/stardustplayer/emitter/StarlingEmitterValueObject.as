@@ -25,7 +25,7 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 
 	private function prepareForStarlingDefault(): void
 	{
-		var bitmapInit = getValidBitmapInit();
+		var bitmapInit: BitmapParticleInit = getValidBitmapInit();
 		if(bitmapInit && bitmapInit.bitmapData)
 		{
 			createStarlingInitializerFromBitmapInitializerOnly(bitmapInit);
