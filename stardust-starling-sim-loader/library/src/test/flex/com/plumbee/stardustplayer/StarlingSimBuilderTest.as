@@ -109,6 +109,20 @@ public class StarlingSimBuilderTest
 	}
 
 	[Test(expects="Error")]
+	public function attemptingToAddTexturesForMoreEmittersThanAreLoaded_throwsError(): void
+	{
+		const texture: Texture = Texture.fromBitmap(new Texture0());
+
+		var projectValueObject : ProjectValueObject = new StarlingSimBuilder()
+				.withSDE(sdeInstance)
+				.withTextureAtlas(texture)
+				.withTextureList(Vector.<Texture>([texture, texture]))
+				.withSingleTexture(texture)
+				.withSingleTexture(texture)
+				.build();
+	}
+
+	[Test(expects="Error")]
 	public function cantBuildWithOnlySDE() : void
 	{
 		new StarlingSimBuilder().withSDE(sdeInstance).build();
