@@ -109,7 +109,7 @@ public class StarlingSimBuilderTest
 	}
 
 	[Test(expects="Error")]
-	public function attemptingToAddTexturesForMoreEmittersThanAreLoaded_throwsError(): void
+	public function attemptingToAddSingleTextureForMoreEmittersThanAreLoaded_throwsError(): void
 	{
 		const texture: Texture = Texture.fromBitmap(new Texture0());
 
@@ -119,6 +119,34 @@ public class StarlingSimBuilderTest
 				.withTextureList(Vector.<Texture>([texture, texture]))
 				.withSingleTexture(texture)
 				.withSingleTexture(texture)
+				.build();
+	}
+
+	[Test(expects="Error")]
+	public function attemptingToAddTextureAtlasForMoreEmittersThanAreLoaded_throwsError(): void
+	{
+		const texture: Texture = Texture.fromBitmap(new Texture0());
+
+		var projectValueObject : ProjectValueObject = new StarlingSimBuilder()
+				.withSDE(sdeInstance)
+				.withTextureAtlas(texture)
+				.withTextureList(Vector.<Texture>([texture, texture]))
+				.withSingleTexture(texture)
+				.withTextureAtlas(texture)
+				.build();
+	}
+
+	[Test(expects="Error")]
+	public function attemptingToAddTextureListForMoreEmittersThanAreLoaded_throwsError(): void
+	{
+		const texture: Texture = Texture.fromBitmap(new Texture0());
+
+		var projectValueObject : ProjectValueObject = new StarlingSimBuilder()
+				.withSDE(sdeInstance)
+				.withTextureAtlas(texture)
+				.withTextureList(Vector.<Texture>([texture, texture]))
+				.withSingleTexture(texture)
+				.withTextureList(Vector.<Texture>([texture, texture]))
 				.build();
 	}
 
