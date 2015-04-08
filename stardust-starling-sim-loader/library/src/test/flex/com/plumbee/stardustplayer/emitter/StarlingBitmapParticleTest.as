@@ -12,6 +12,7 @@ import org.flexunit.asserts.assertNotNull;
 import org.flexunit.asserts.assertStrictlyEquals;
 import org.flexunit.asserts.assertTrue;
 import org.flexunit.async.Async;
+import org.hamcrest.object.equalTo;
 import org.hamcrest.object.strictlyEqualTo;
 
 import starling.textures.Texture;
@@ -224,6 +225,16 @@ public class StarlingBitmapParticleTest
 	}
 
 	[Test]
+	public function willUpdateTexture_whenSettingStartFromRandomFrame() : void
+	{
+		var particle: StarlingBitmapParticleSpy = new StarlingBitmapParticleSpy(new <Texture>[createTexture(1,1)]);
+		const preCallNumTextureSets: uint = particle.setterWasCalled("texture");
+		particle.startFromRandomFrame = true;
+		const postCallNumTextureSets: uint = particle.setterWasCalled("texture");
+		assertThat(postCallNumTextureSets, equalTo(preCallNumTextureSets+1));
+	}
+
+	[Test]
 	public function willSetAnimationSpeed() : void
 	{
 		const SPEED : uint = 20;
@@ -249,6 +260,23 @@ public class StarlingBitmapParticleTest
 		particle.animationSpeed = SPEED;
 		assertEquals(SPEED * TEXTURES.length, particle.animationLength);
 	}
+
+	[Test]
+	public function animationSpeedSetToZero_willNotAnimate() : void
+	{
+		const ANIMATION_SPEED: uint = 0;
+		const TEXTURES: Vector.<Texture> = Vector.<Texture>([createTexture(1,1), createTexture(1,1)]);
+		var particle: StarlingBitmapParticleSpy = new StarlingBitmapParticleSpy(TEXTURES);
+
+		const numTimesTextureSetBeforeSetAnimSpeed: uint = particle.setterWasCalled("texture");
+		particle.animationSpeed = ANIMATION_SPEED;
+		particle.stepSpriteSheet(1);
+		const numAdditionalTimeTextureUpdatedWhenAnimSpeedZero: uint = particle.setterWasCalled("texture") - numTimesTextureSetBeforeSetAnimSpeed;
+		assertThat(numAdditionalTimeTextureUpdatedWhenAnimSpeedZero, equalTo(0));
+	}
+
+
+
 
 	private function createTexture(width : uint, height : uint) : Texture
 	{
@@ -362,5 +390,11 @@ class StarlingBitmapParticleSpy extends StarlingBitmapParticle
 	{
 		super.alpha = value;
 		callSetter("alpha");
+	}
+
+	override public function set texture(texture: Texture) : void
+	{
+		super.texture = texture;
+		callSetter("texture");
 	}
 }

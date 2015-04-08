@@ -11,6 +11,7 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 	private var _animationSpeed : uint = 1;
 	private var _playingFrameIndex : uint = 0;
 	private var _animationLength : uint = 1;
+	private var _isAnimated: Boolean = true;
 
 	public function StarlingBitmapParticle(textures : Vector.<Texture>)
 	{
@@ -43,7 +44,15 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 
 	public function stepSpriteSheet(stepTime : uint) : void
 	{
-		_playingFrameIndex = (_playingFrameIndex + stepTime) % _animationLength;
+		if(_isAnimated)
+		{
+			_playingFrameIndex = (_playingFrameIndex + stepTime) % _animationLength;
+			updateCurrentTexture();
+		}
+	}
+
+	private function updateCurrentTexture(): void
+	{
 		texture = _textures[uint(_playingFrameIndex / _animationSpeed)];
 	}
 
@@ -67,6 +76,10 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 
 	public function set animationSpeed(value : uint) : void
 	{
+		if(value == 0)
+		{
+			_isAnimated = false;
+		}
 		_animationSpeed = (value > 0) ? value : 1;
 		_animationLength = _textures.length * _animationSpeed;
 	}
@@ -76,10 +89,12 @@ public class StarlingBitmapParticle extends Image implements IAnimatedParticle, 
 		if(value)
 		{
 			_playingFrameIndex = Math.random() * _animationLength;
+			updateCurrentTexture();
 		}
 		else
 		{
 			_playingFrameIndex = 0;
+			updateCurrentTexture();
 		}
 	}
 
