@@ -9,6 +9,8 @@ import idv.cjcat.stardustextended.twoD.starling.ParticleConfig;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
+import starling.display.BlendMode;
+
 import starling.display.DisplayObjectContainer;
 import starling.textures.Texture;
 
@@ -19,7 +21,7 @@ public class StarlingEmitterValueObject extends BaseEmitterValueObject implement
 	public function StarlingEmitterValueObject(emitterId : uint, emitter : Emitter2D)
 	{
 		super(emitterId, emitter);
-		_emitter.particleHandler = new StarlingHandler();
+		_emitter.particleHandler = new StarlingHandler(null, _emitter.blendMode);
 		prepareForStarlingDefault();
 	}
 

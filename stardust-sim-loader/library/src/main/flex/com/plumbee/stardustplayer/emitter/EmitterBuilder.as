@@ -11,8 +11,6 @@ import idv.cjcat.stardustextended.sd;
 import idv.cjcat.stardustextended.twoD.TwoDClassPackage;
 import idv.cjcat.stardustextended.twoD.display.bitmapParticle.BitmapParticle;
 import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
-import idv.cjcat.stardustextended.twoD.initializers.PooledDisplayObjectClass;
-import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
@@ -41,7 +39,22 @@ public class EmitterBuilder
 			emitter2D.removeInitializersByClass(initializerClass);
 		});
 
+		emitter2D.blendMode = getBlendMode(sourceXML);
 		return emitter2D;
+	}
+
+	private static function getBlendMode(sourceXML : XML): String
+	{
+		var handlers: XMLList = sourceXML.elements("handlers");
+		var displayObjectHandlers:XMLList = handlers.elements("DisplayObjectHandler");
+		var blendMode: String = displayObjectHandlers.attribute("blendMode").toString();
+
+		if(blendMode!="" && blendMode != null)
+		{
+			return blendMode;
+		}else{
+			return "normal";
+		}
 	}
 }
 }
