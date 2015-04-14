@@ -18,10 +18,10 @@ use namespace sd;
 
 public class StarlingEmitterValueObject extends BaseEmitterValueObject implements IStarlingEmitter
 {
-	public function StarlingEmitterValueObject(emitterId : uint, emitter : Emitter2D)
+	public function StarlingEmitterValueObject(emitterId : uint, emitter : Emitter2D, enableATFMode: Boolean = false)
 	{
 		super(emitterId, emitter);
-		_emitter.particleHandler = new StarlingHandler(null, _emitter.blendMode);
+		_emitter.particleHandler = new StarlingHandler(null, _emitter.blendMode, 0, enableATFMode);
 		prepareForStarlingDefault();
 	}
 

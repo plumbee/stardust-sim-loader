@@ -9,6 +9,8 @@ import idv.cjcat.stardustextended.twoD.emitters.Emitter2D;
 import idv.cjcat.stardustextended.twoD.initializers.BitmapParticleInit;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 
+import org.flexunit.assertThat;
+
 import org.flexunit.asserts.assertEquals;
 
 import org.flexunit.async.Async;
