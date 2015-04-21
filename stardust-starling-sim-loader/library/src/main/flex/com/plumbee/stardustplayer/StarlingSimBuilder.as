@@ -53,6 +53,8 @@ public class StarlingSimBuilder
 	{
 		var emitterVO : StarlingEmitterValueObject = new StarlingEmitterValueObject(emitterID, EmitterBuilder.buildEmitter(emitterConfig));
 		_project.emitters[emitterID] = emitterVO;
+
+		return this;
 	}
 
 	private function addEmitter(emitterBA : ByteArray, emitterID : uint) : void
