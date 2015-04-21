@@ -59,6 +59,13 @@ public class StarlingSimBuilderTest
 	}
 
 
+	[Test(expects="Error")]
+	public function cantBuildWithOnlyXMLEmitter() : void
+	{
+		var xml : XML = new XML(xmlInstance.readUTFBytes(xmlInstance.length));
+		new StarlingSimBuilder().withXMLEmitter(0, xml).build();
+	}
+
 	[Test]
 	public function canBuildWithEmitterAndTextureAtlas() : void
 	{
@@ -81,6 +88,22 @@ public class StarlingSimBuilderTest
 		.withEmitter(0, xmlInstance)
 		.withSingleTexture(Texture.fromBitmap(new Texture0()))
 		.build();
+
+		assertEquals(projectValueObject.numberOfEmitters, 1);
+
+		var starlingEmitterVO : StarlingEmitterValueObject = projectValueObject.emitters[0] as StarlingEmitterValueObject;
+
+		assertThatContainsStarlingDisplayObjectClassInitializer(starlingEmitterVO);
+	}
+
+	[Test]
+	public function canBuildWithXMLEmitterAndSingleTexture(): void
+	{
+		var xml : XML = new XML(xmlInstance.readUTFBytes(xmlInstance.length));
+		var projectValueObject: ProjectValueObject = new StarlingSimBuilder()
+				.withXMLEmitter(0, xml)
+				.withSingleTexture(Texture.fromBitmap(new Texture0()))
+				.build();
 
 		assertEquals(projectValueObject.numberOfEmitters, 1);
 

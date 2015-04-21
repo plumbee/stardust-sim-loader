@@ -49,6 +49,12 @@ public class StarlingSimBuilder
 		return this;
 	}
 
+	public function withXMLEmitter(emitterID : uint, emitterConfig : XML) : StarlingSimBuilder
+	{
+		var emitterVO : StarlingEmitterValueObject = new StarlingEmitterValueObject(emitterID, EmitterBuilder.buildEmitter(emitterConfig));
+		_project.emitters[emitterID] = emitterVO;
+	}
+
 	private function addEmitter(emitterBA : ByteArray, emitterID : uint) : void
 	{
 		var emitterXml : XML = new XML(emitterBA.readUTFBytes(emitterBA.length));
