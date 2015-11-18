@@ -54,15 +54,6 @@ public class SimPlayer
 		for each (var emitterValueObject : BaseEmitterValueObject in _sim.emitters)
 		{
 			emitterValueObject.emitter.step(timeStep);
-			if (emitterValueObject.emitter.clock is ImpulseClock)
-			{
-				const impulseClock : ImpulseClock = ImpulseClock(emitterValueObject.emitter.clock);
-				if (emitterValueObject.emitter.currentTime >= impulseClock.nextBurstTime)
-				{
-					const currentTime : Number = emitterValueObject.emitter.currentTime;
-					ImpulseClock(emitterValueObject.emitter.clock).impulse(currentTime);
-				}
-			}
 		}
 	}
 

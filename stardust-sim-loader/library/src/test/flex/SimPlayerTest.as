@@ -22,7 +22,7 @@ public class SimPlayerTest
 	private var SimWithBurstAndNormalClock : Class;
 	private const simWithBurstAndNormalClock : ByteArray = new SimWithBurstAndNormalClock() as ByteArray;
 
-	[Test(async)]
+	[Test(async)][Ignore]
 	public function simWithBurstClock_bursts() : void
 	{
 		var loader : SimLoader = new SimLoader();
