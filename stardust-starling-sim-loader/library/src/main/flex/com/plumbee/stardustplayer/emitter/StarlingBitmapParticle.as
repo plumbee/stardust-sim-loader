@@ -1,7 +1,7 @@
 package com.plumbee.stardustplayer.emitter
 {
+import idv.cjcat.stardustextended.twoD.starling.*;
 import idv.cjcat.stardustextended.twoD.display.bitmapParticle.IAnimatedParticle;
-import idv.cjcat.stardustextended.twoD.starling.IStardustStarlingParticle;
 
 import starling.display.Image;
 import starling.textures.Texture;

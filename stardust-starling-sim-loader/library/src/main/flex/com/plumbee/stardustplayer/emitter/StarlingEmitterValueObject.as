@@ -9,8 +9,6 @@ import idv.cjcat.stardustextended.twoD.starling.ParticleConfig;
 import idv.cjcat.stardustextended.twoD.starling.PooledStarlingDisplayObjectClass;
 import idv.cjcat.stardustextended.twoD.starling.StarlingHandler;
 
-import starling.display.BlendMode;
-
 import starling.display.DisplayObjectContainer;
 import starling.textures.Texture;
 
