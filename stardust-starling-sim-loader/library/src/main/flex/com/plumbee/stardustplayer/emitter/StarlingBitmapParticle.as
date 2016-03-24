@@ -1,3 +1,7 @@
+//NOTE: This class has been copy-pasted into stardust-library to solve the issue of dynamically loaded particles across app-domains.
+//Any changes made here should be mirrored in the class with the same package and name in stardust-library. Not doing so will most-likely
+//result in a week-long migraine
+
 package com.plumbee.stardustplayer.emitter
 {
 import idv.cjcat.stardustextended.twoD.starling.*;
