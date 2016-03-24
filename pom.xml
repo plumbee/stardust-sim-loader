@@ -26,7 +26,7 @@
         <flexmojos.version>5.1-beta-QP</flexmojos.version>
         <swf.version>18</swf.version>
         <flash.player.version>11.7</flash.player.version>
-        <client.unit.testing.version>1.110</client.unit.testing.version>
+        <client.unit.testing.version>1.126</client.unit.testing.version>
 
         <includeProperties>
             stardust.library.version,
